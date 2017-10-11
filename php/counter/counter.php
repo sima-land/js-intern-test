@@ -1,16 +1,22 @@
 <?php
-$file_name = 'unique_user';
-fclose(fopen($file_name, 'a+b')); //попытка создать файл и его мгновенное закрытие , чтобы не вылетел ексепшон.
-$file = file($file_name);
-$unique_user = empty($file) ? 0 : $file[0]; //если файл пустой  то  уникальных юзеров 0 ; если нет то  берем значение из файла
+$file_name = 'unique_user'; //имя файла
+fclose(fopen($file_name, 'a+b')); //если нет файла создаем его
+$file = file_get_contents($file_name); //берём все данные из файла
+$unique_user_array = []; //заготовка под  готовый  масив
+$live_time = 60; //время жизни
+$time = time();
+if (!(empty($file))) {
+    $filtr_array = json_decode($file);
+    $unique_user_array = array_filter($filtr_array, function ($k) {
+        return ($k > $time - $live_time || $k == $time - $live_time);
+    }, ARRAY_FILTER_USE_BOTH);
+}
+$unique_user = isset($unique_user_array) && !empty($unique_user_array) ? count($unique_user_array) : 0;
 if (!isset($_COOKIE['visited'])) {//проверка существует ли кукис
-    $time = time();
-    $live_time = 60; //время жизни кукисов
-    setcookie('visited', 1, time() + $live_time); //устанавливаем кукисы
+    setcookie('visited', 1, $time + $live_time); //устанавливаем кукисы
     $unique_user++; //Увеличиваем количество уникальных на единицу
-    $file_write = fopen($file_name, 'r+b'); //открываем файл чтобы записать в него данные
-    flock($file_write, LOCK_EX); // выполняем эксклюзивную блокировку
-    fwrite($file_write, (int)$unique_user); //пишем данные в файл тут стоит принудительный  конверт в int  чтобы не было ошибки связанной с булевыми значениями.
-    fclose($file_write); //закрываем файл 
+    $unique_user_array[] = $time; //добавляем наше последнее значение
+    $unique_user_array = json_encode($unique_user_array); //кодируем всё в json
+    file_put_contents($file_name, $unique_user_array); //вставляем всё в файл
 }
 echo "уникальных юзеров на сайте {$unique_user}"; //вывод колличества уникальных пользователей по кукам

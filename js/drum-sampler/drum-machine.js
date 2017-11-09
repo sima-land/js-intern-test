@@ -1,22 +1,8 @@
-var keys = [];
-var audioKeys = [];
-var audioSrc = [];
-
-$(key).each(function() {
-    keys.push($(this).data('key'));
-});
-$(audioKey).each(function() {
-    audioKeys.push($(this).data('key'));
-});
-$(audioKey).each(function() {
-    audioSrc.push($(this).data('src'));
-});
-
-document.onkeydown = function(e) {
-    for (var i = 0; i < keys.length; i++) {
-        if (e.keyCode == keys[i] && audioKeys[i]) {
-            new Audio(audioSrc[i]).play();
-            break;
-        }
-    }
-}
+  function playAudio(e) {
+      var audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
+      var key = document.querySelector(`div[data-key="${e.keyCode}"]`);
+      if (!audio) return;
+      audio.play();
+  }
+  var keys = Array.from(document.querySelectorAll('.key'));
+  window.addEventListener('keydown', playAudio);

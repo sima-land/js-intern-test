@@ -7,23 +7,14 @@ use Counter\Interfaces\ActiveUsersCounterInterface;
 /**
  * Class for counted active logged users
  */
-abstract class AbstractUsersCounter implements ActiveUsersCounterInterface, Countable
+abstract class AbstractUsersCounter implements ActiveUsersCounterInterface, \Countable
 {
 	protected $container	= [];
-
-	public function __construct()
-	{
-		foreach($_COOKIES as $cookieKey => $cookieVal)
-		{
-			if(preg_match('/^user\_\w+$/i', $cookieKey)){
-				$this->container[$cookieKey] = $cookieVal;
-			}
-		}
-	}
-
+	
 	public function getActiveUsersCount()
 	{
-		return count($this->container);
+		$uniqueArray	= array_unique($this->container);
+		return count($uniqueArray);
 	}
 
 	public function count()

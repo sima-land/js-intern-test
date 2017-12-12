@@ -1,21 +1,23 @@
 window.onload = () => {
-    let audios = Array.from(document.getElementsByTagName('audio'))
-    let block = Array.from(document.getElementsByClassName('key'))
-    var stop = 0
+    var stop = 65
 
     document.onkeydown = (e) =>{
-        let dataKey = e.keyCode
-        audios.forEach(function(e, i) {
-            if (dataKey == e.dataset.key){
-                audios[stop].pause()
-                audios[stop].currentTime = 0
-                audios[i].play()
-                block[i].id = 'active'
-                setTimeout(function(){
-                    block[i].id = ''
-                }, 100)
-                stop = i
-            }
-        })        
+        var audio = document.querySelector(`audio[data-key="${e.keyCode}"]`)
+        var audioStop = document.querySelector(`audio[data-key="${stop}"]`)
+
+        var block = document.querySelector(`div[data-key = "${e.keyCode}"]`)
+        
+        if(audio){
+            audioStop.pause()
+            audioStop.currentTime = 0
+
+            audio.play()
+            block.id = "playing"
+            setTimeout(function() {
+                block.id = ''
+            }, 100);
+
+            stop = e.keyCode
+        }      
     }
 }

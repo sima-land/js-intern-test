@@ -12,5 +12,13 @@ export const words = (state = {}) => {
 };
 
 export const filteredGoods = state => {
-  return state.search;
+  let filteredWords = [];
+  let words = state.words;
+  let query = state.search;
+  words.forEach(function(word) {
+    if (query != "" && word.toLowerCase().indexOf(query.toLowerCase()) !== -1) {
+      filteredWords.push(word);
+    }
+  });
+  return filteredWords.slice(0, 5);
 };

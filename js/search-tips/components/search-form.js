@@ -14,7 +14,7 @@ class SearchForm extends Component {
           type="search"
           onChange={this.handleChange}
         />
-        <SearchTips />
+        <SearchTips tips={this.props.tips} />
       </section>
     );
   }

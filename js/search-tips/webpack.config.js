@@ -1,14 +1,14 @@
-const { resolve } = require('path');
-const webpack = require('webpack');
+const { resolve } = require("path");
+const webpack = require("webpack");
 
 module.exports = {
   entry: {
-    bundle: './index.js'
+    bundle: "./index.js"
   },
 
   output: {
-    filename: '[name].js',
-    path: resolve(__dirname, 'build/')
+    filename: "[name].js",
+    path: resolve(__dirname, "build/")
   },
 
   module: {
@@ -17,17 +17,17 @@ module.exports = {
         test: /\.js$/,
         exclude: /node_modules/,
         use: {
-          loader: 'babel-loader'
+          loader: "babel-loader"
         }
       },
       {
         test: /\.css$/,
-        use: [ 'style-loader', 'css-loader' ]
+        use: ["style-loader", "css-loader"]
       }
     ]
   },
   resolve: {
-    extensions: ['.js', '.jsx']
+    extensions: [".js", ".jsx"]
   },
   plugins: []
 };

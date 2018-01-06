@@ -1,11 +1,12 @@
-const search = (state = {}, action) => {
+import * as types from "../actions/types";
+export const search = (state = {}, action) => {
   switch (action.type) {
-    case 'search':
-      return {};
+    case types.SEARCH_GOODS:
+      return action.payload;
     default:
       return state;
   }
-
 };
-
-export default search;
+export const words = (state = {}) => {
+  return state;
+};

@@ -1,11 +1,12 @@
-import React, { Component } from "react";
-import SearchTips from "../components/search-tips";
+import React, { Component } from 'react';
+import SearchTips from '../components/search-tips';
 
 class SearchForm extends Component {
   handleChange = e => {
     this.props.searchGoods(e.target.value);
   };
   render() {
+    const { tips } = this.props;
     return (
       <section>
         <h1>Поисковые подсказки</h1>
@@ -14,7 +15,7 @@ class SearchForm extends Component {
           type="search"
           onChange={this.handleChange}
         />
-        <SearchTips tips={this.props.tips} />
+        {tips.length > 0 && <SearchTips tips={tips} />}
       </section>
     );
   }

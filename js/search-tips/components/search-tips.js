@@ -1,8 +1,14 @@
-import React from "react";
+import React from 'react';
 
 const SearchTips = props => (
   <div className="search-tips">
-    <ul>{props.tips.map(tip => <li key={tip}>{tip}</li>)}</ul>
+    <ul className="tips-list">
+      {props.tips.map(tip => (
+        <li key={tip} className="tips-item">
+          {tip}
+        </li>
+      ))}
+    </ul>
   </div>
 );
 

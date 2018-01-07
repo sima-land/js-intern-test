@@ -1,9 +1,9 @@
-import { connect } from "react-redux";
+import { connect } from 'react-redux';
 
-import { searchGoods } from "../actions/search-actions";
-import { filteredGoods } from "../reducers/search-reducer";
+import { searchGoods } from '../actions/search-actions';
+import { filteredGoods } from '../reducers/search-reducer';
 
-import SearchForm from "../components/search-form";
+import SearchForm from '../components/search-form';
 
 const mapStateToProps = state => ({
   tips: filteredGoods(state)

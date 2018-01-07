@@ -11,6 +11,13 @@
         }, 100);
       }
     });
+    Array.from(sounds).forEach(item => {
+      item.pause();
+      item.currentTime = 0;
+      if (key.toString() === item.getAttribute("data-key")) {
+        item.play();
+      }
+    });
   };
   window.addEventListener("keydown", defineKey);
 })();

@@ -1,23 +1,24 @@
 (function() {
-  let keys = document.getElementsByClassName("key");
-  let sounds = document.getElementsByTagName("audio");
-  const defineKey = e => {
-    let key = e.keyCode;
-    Array.from(keys).forEach(item => {
-      if (key.toString() === item.getAttribute("data-key")) {
-        item.style.transform = "scale(1.2)";
+  const keys = document.getElementsByClassName("key");
+  const sounds = document.getElementsByTagName("audio");
+
+  const playSound = e => {
+    const pressedKey = e.keyCode.toString();
+    for (let key of keys) {
+      if (pressedKey === key.getAttribute("data-key")) {
+        key.style.transform = "scale(1.2)";
         setTimeout(() => {
-          item.style.transform = "scale(1)";
+          key.removeAttribute("style");
         }, 100);
       }
-    });
-    Array.from(sounds).forEach(item => {
-      item.pause();
-      item.currentTime = 0;
-      if (key.toString() === item.getAttribute("data-key")) {
-        item.play();
+    }
+    for (let sound of sounds) {
+      sound.pause();
+      sound.currentTime = 0;
+      if (pressedKey === sound.getAttribute("data-key")) {
+        sound.play();
       }
-    });
+    }
   };
-  window.addEventListener("keydown", defineKey);
+  window.addEventListener("keydown", playSound);
 })();

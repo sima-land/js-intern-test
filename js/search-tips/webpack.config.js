@@ -8,7 +8,8 @@ module.exports = {
 
   output: {
     filename: '[name].js',
-    path: resolve(__dirname, 'build/')
+    path: resolve(__dirname, './build'),
+    publicPath: '/build/'
   },
 
   module: {
@@ -22,7 +23,7 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use: [ 'style-loader', 'css-loader' ]
+        use: ['style-loader', 'css-loader']
       }
     ]
   },

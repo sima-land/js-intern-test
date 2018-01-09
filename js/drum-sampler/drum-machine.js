@@ -1,24 +1,47 @@
 (function() {
-  const keys = document.getElementsByClassName("key");
-  const sounds = document.getElementsByTagName("audio");
+  const keys = document.getElementsByClassName('key');
 
-  const playSound = e => {
-    const pressedKey = e.keyCode.toString();
+  let keysWithSounds = {};
+
+  (function combineNotes() {
     for (let key of keys) {
-      if (pressedKey === key.getAttribute("data-key")) {
-        key.style.transform = "scale(1.2)";
-        setTimeout(() => {
-          key.removeAttribute("style");
-        }, 100);
-      }
+      let dataKey = key.getAttribute('data-key');
+      keysWithSounds[dataKey] = {
+        key: key,
+        sound: document.querySelector(`audio[data-key='${dataKey}']`)
+      };
     }
-    for (let sound of sounds) {
-      sound.pause();
-      sound.currentTime = 0;
-      if (pressedKey === sound.getAttribute("data-key")) {
-        sound.play();
-      }
+  })(); //IIFE, которая собирает клавиши и звуки в объект keysWithSounds
+
+  const animateKey = key => {
+    key.style.transform = 'scale(1.2)';
+    setTimeout(() => {
+      key.removeAttribute('style');
+    }, 100);
+  };
+
+  const playSound = sound => {
+    sound.play();
+    sound.classList.add('playing'); //пометим запущенный звук, чтобы стопить его впоследствии
+  };
+
+  const stopPlaying = () => {
+    const playingSound = document.querySelector('audio.playing'); // найдем запущеный звук
+    if (playingSound) {
+      playingSound.pause();
+      playingSound.currentTime = 0;
+      playingSound.classList.remove('playing');
     }
   };
-  window.addEventListener("keydown", playSound);
+
+  const playNote = e => {
+    const keyWithSound = keysWithSounds[e.keyCode];
+    if (keyWithSound) {
+      stopPlaying();
+      animateKey(keyWithSound.key);
+      playSound(keyWithSound.sound);
+    }
+  };
+
+  window.addEventListener('keydown', playNote);
 })();

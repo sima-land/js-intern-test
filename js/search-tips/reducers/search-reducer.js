@@ -17,12 +17,18 @@ export const filteredGoods = state => {
   let filteredWords = [];
   let words = state.words;
   let query = state.search;
-  words.forEach(word => {
-    if (query != '' && word.toLowerCase().indexOf(query.toLowerCase()) !== -1) {
+
+  for (let word of words) {
+    if (
+      query != '' &&
+      word &&
+      word.toLowerCase().indexOf(query.toLowerCase()) !== -1
+    ) {
       filteredWords.push(word);
     }
-  });
-  return filteredWords.slice(0, 5);
+    if (filteredWords.length > 5) break; //остановим цикл, если массив подсказок достигннет 5
+  }
+  return filteredWords;
 }; /*селектор filteredGoods берет из стейта массив подсказок и поисковый запрос.
 Затем перебирает массив подсказок, и проверяет вхождение запроса в каждый элемент массива.
 Если есть вхождение, пушит элемент в массив filtredWords. Селектор возвращает урезаный до 5 элементов массив 

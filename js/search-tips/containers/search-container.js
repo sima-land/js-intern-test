@@ -1,16 +1,14 @@
 import { connect } from 'react-redux';
-
-import * as actions from '../actions/search-actions';
-
-import SearchForm from '../components/search-form';
+import {SearchForm} from '../components/search-form';
+import {updateSearchTips} from '../reducers/search-reducer';
 
 const mapStateToProps = state => ({
-  
+  searchTipsWords: state.search.searchTipsWords,
 });
 
-const mapDispatchToProps = dispatch => ({
-
-});
+const mapDispatchToProps = {
+  updateSearchTips
+};
 
 const SearchContainer = connect(mapStateToProps, mapDispatchToProps)(SearchForm);
 

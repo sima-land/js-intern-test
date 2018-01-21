@@ -5,16 +5,19 @@
   "main": "index.js",
   "scripts": {
     "test": "test",
-    "start": "npm run build; webpack-dev-server --open",
-    "build": "webpack -p --config ./webpack.config.js"
+    "build": "webpack -p --config ./webpack.config.js",
+    "start": "npm run build && webpack-dev-server --open"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bootstrap": "^3.3.7",
     "react": "^15.6.1",
+    "react-bootstrap": "^0.32.0",
+    "react-dom": "^15.6.1",
     "react-redux": "^5.0.5",
     "redux": "^3.7.1",
-    "react-dom": "^15.6.1",
+    "redux-actions": "^2.2.1",
     "redux-devtools-extension": "^2.13.0"
   },
   "devDependencies": {
@@ -27,6 +30,7 @@
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
     "css-loader": "^0.28.4",
+    "file-loader": "^1.1.6",
     "jest": "^20.0.4",
     "style-loader": "^0.18.2",
     "webpack": "^3.2.0",

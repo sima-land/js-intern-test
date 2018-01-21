@@ -6,6 +6,7 @@ import store from './store/store';
 
 import SearchContainer from './containers/search-container';
 
+import 'bootstrap/dist/css/bootstrap.css';
 import './styles/index.css'
 
 render(

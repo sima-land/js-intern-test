@@ -1,5 +1,6 @@
 import React from 'react';
 import SearchTips from '../components/search-tips';
+import { Grid, Row, Col, FormControl, ControlLabel } from 'react-bootstrap';
 
 export class SearchForm extends React.Component{
   constructor(props) {
@@ -14,16 +15,22 @@ export class SearchForm extends React.Component{
     
     render() {
     	return (  
-	    	<section>
-	        <h1>Поисковые подсказки</h1>
-	        <input 
-	        	className="search-input" 
-	        	type="search"  
-	        	ref={(input) => { this.searchInput = input; }} 
-	        	value={this.state.searchString}			     
-				onChange={this.handleChange} />
-	        <SearchTips words={this.props.searchTipsWords} onSelect={this.handleSelect}/>
-	      </section>)
+    	<Grid>
+	    	<Row className="show-grid">
+				<Col sm={6} smOffset={3}>
+					<section>
+				        <ControlLabel>Поисковые подсказки</ControlLabel>
+				        <FormControl 
+				        	className="search-input" 
+				        	type="search"  
+				        	inputRef={(input) => { this.searchInput = input; }} 
+				        	value={this.state.searchString}			     
+							onChange={this.handleChange} />
+				        <SearchTips words={this.props.searchTipsWords} onSelect={this.handleSelect}/>
+			     	</section>
+				</Col>			
+			</Row>	    	
+	    </Grid>)
     }
 
     handleChange(event){

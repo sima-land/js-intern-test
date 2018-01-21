@@ -1,3 +1,9 @@
 .show-grid{
 	margin-top: 60px;
 }
+.search-tips.dropdown-menu.open{
+	position: static;
+    display: block;
+    margin-bottom: 5px;
+    clear: left;
+}

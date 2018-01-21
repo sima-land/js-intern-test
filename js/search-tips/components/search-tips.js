@@ -1,20 +1,17 @@
 import React from 'react';
+import { MenuItem } from 'react-bootstrap';
 
 
 export default class SearchTips extends React.Component{
-    constructor(props) {
-		super(props); 
-            
-    }
     
     render() {
     	const words = this.props.words;
     	return (  
-	    	<div className="search-tips">
+	    	<ul className={"search-tips dropdown-menu " + (words.length > 0 ? 'open' : '')}>
 			{words.map((word, index) => {
-			    return (<div onClick={this.handleClick.bind(this, word)}  key={index}>{word}</div>);
+			    return (<MenuItem  onSelect={this.handleClick.bind(this, word)}  key={index}>{word}</MenuItem>);
 			})}
-	    	</div>
+	    	</ul>
 	    )
     } 
 

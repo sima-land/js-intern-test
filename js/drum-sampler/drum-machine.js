@@ -2,6 +2,7 @@ function reSize(kc) {
 	var el = document.querySelector('*[data-key="' + kc + '"] kbd');
 	try {
 		el.style.fontWeight = '900';
+		el.style.transition = 'all 0.25s';
 		setTimeout(function() {
 			el.style.fontWeight = 'normal';
 		}, 500);
@@ -11,41 +12,53 @@ function reSize(kc) {
 	}
 }
 
-var audio= new Audio();
+let audioDB = [];
+let audio = new Audio();
+
+function newAudio(name) {
+	if (audioDB[name]) {
+		return audioDB[name];
+	} else {
+		src= 'sounds/' + name + '.wav';
+		audioDB[name] = new Audio(src);
+		return audioDB[name];
+	}
+}
 
 document.addEventListener('keydown', (e) => {
 	if (e.preventDefault) e.preventDefault();
 	if (e.stopPropagation) e.stopPropagation();
 	kc = e.keyCode;
 	audio.pause();
+	audio.currentTime = 0.0;
 	reSize(kc);
 	switch(kc) {
 		case 65:
-			audio = new Audio("sounds/clap.wav");
+			audio = newAudio('clap');
 		break;
 		case 83:
-			audio = new Audio("sounds/hihat.wav");
+			audio = newAudio('hihat');
 		break;
 		case 68:
-			audio = new Audio("sounds/kick.wav");
+			audio = newAudio('kick');
 		break;
 		case 70:
-			audio = new Audio("sounds/openhat.wav");
+			audio = newAudio('openhat');
 		break;
 		case 71:
-			audio = new Audio("sounds/boom.wav");
+			audio = newAudio('boom');
 		break;
 		case 72:
-			audio = new Audio("sounds/ride.wav");
+			audio = newAudio('ride');
 		break;
 		case 74:
-			audio = new Audio("sounds/snare.wav");
+			audio = newAudio('snare');
 		break;
 		case 75:
-			audio = new Audio("sounds/tom.wav");
+			audio = newAudio('tom');
 		break;
 		case 76:
-			audio = new Audio("sounds/tink.wav");
+			audio = newAudio('tink');
 		break;
 		default:
 			return;

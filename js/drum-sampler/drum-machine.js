@@ -10,7 +10,7 @@ const mashine = function() {
 			setTimeout(function() {
 				el.style.fontWeight = 'normal';
 			}, 500);
-			console.log(el);
+			//console.log(el);
 		} catch (err) {
 			return;
 		}
@@ -19,8 +19,8 @@ const mashine = function() {
 	return {
 		run() {
 			document.addEventListener('keydown', (e) => {
-				if (e.preventDefault) {e.preventDefault()};
-				if (e.stopPropagation) {e.stopPropagation()};
+				if (e.preventDefault) {e.preventDefault();}
+				if (e.stopPropagation) {e.stopPropagation();}
 				let kc = e.keyCode;
 				audio.pause();
 				audio.currentTime = 0.0;
@@ -56,7 +56,7 @@ const mashine = function() {
 					default:
 						return;
 				}
-				console.log(audio);
+				//console.log(audio);
 				audio.play();
 			});
 		}

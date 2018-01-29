@@ -10,7 +10,7 @@ const mashine = function() {
 			setTimeout(function() {
 				el.style.fontWeight = 'normal';
 			}, 500);
-			Console.log(el);
+			console.log(el);
 		} catch (err) {
 			return;
 		}
@@ -56,7 +56,7 @@ const mashine = function() {
 					default:
 						return;
 				}
-				Console.log(audio);
+				console.log(audio);
 				audio.play();
 			});
 		}

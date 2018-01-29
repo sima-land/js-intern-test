@@ -18,7 +18,7 @@ const mashine = function() {
 
 	return {
 		run() {
-			document.addEventListener('keydown', (e) => {
+			document.addEventListener('keydown', function(e) {
 				if (e.preventDefault) {e.preventDefault();}
 				if (e.stopPropagation) {e.stopPropagation();}
 				let kc = e.keyCode;

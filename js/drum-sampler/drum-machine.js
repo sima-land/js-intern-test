@@ -1,42 +1,42 @@
-document.addEventListener("DOMContentLoaded", ready);
-
 function ready() {
-	var pads = document.querySelectorAll(".key"), 
-	audios = document.querySelectorAll("audio"),
-	drum_machine = new Object();
-	current_key = null;
+	var pads = document.querySelectorAll('.key'), 
+	audios = document.querySelectorAll('audio'),
+	drumMachine = new Object(),
+	currentKey = null;
 
 	audios.forEach(function(audio) {
-		key = audio.getAttribute("data-key");
-		drum_machine[key] = new Object();
-		drum_machine[key].sound = audio;
+		var key = audio.getAttribute('data-key');
+		drumMachine[key] = new Object();
+		drumMachine[key].sound = audio;
 	});
 	
 	pads.forEach(function(pad) {
-		key = pad.getAttribute("data-key");
-		if(drum_machine[key]) {
-			drum_machine[key].pad = pad;
+		var key = pad.getAttribute('data-key');
+		if(drumMachine[key]) {
+			drumMachine[key].pad = pad;
 		};
 	});
 
 	function playSound(e) {
 		var keycode = e.keyCode;
-		if(drum_machine[keycode]) {
-			var key = drum_machine[keycode]; 
-			key.pad.className = key.pad.className + " playing";
+		if(drumMachine[keycode]) {
+			var key = drumMachine[keycode]; 
+			key.pad.className = key.pad.className + ' playing';
 
 			setTimeout(function() {
-				key.pad.className = key.pad.className.replace(/\bplaying\b/g, "");	
+				key.pad.className = key.pad.className.replace(/\bplaying\b/g, '');	
 			}, 70);
 
-			if(current_key) {
-				drum_machine[current_key].sound.pause();
-				drum_machine[current_key].sound.currentTime = 0;
+			if(currentKey) {
+				drumMachine[currentKey].sound.pause();
+				drumMachine[currentKey].sound.currentTime = 0;
 			};
-			current_key = keycode;
-			drum_machine[current_key].sound.play();
+			currentKey = keycode;
+			drumMachine[currentKey].sound.play();
 		};
 	};
 
-	document.addEventListener("keypress", playSound);
+	document.addEventListener('keypress', playSound);
 };
+
+document.addEventListener('DOMContentLoaded', ready);

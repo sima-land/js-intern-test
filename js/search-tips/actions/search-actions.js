@@ -1,6 +1,6 @@
 export function search(str) {
 	return {
-		type: "search",
+		type: 'search',
 		payload: str
-	}
+	};
 } 

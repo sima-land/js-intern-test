@@ -3,7 +3,7 @@ import reducer from '../reducers';
 import data from '../data/words';
 
 let preloadedState = {
-  search: { 
+  search: {
   	words: data
   }
 };

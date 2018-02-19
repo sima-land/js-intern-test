@@ -6,8 +6,10 @@ const search = (state = {}, action) => {
       q = action.payload;
       if(q.length) {
         tips = words.filter( x => x.toLowerCase().includes(q.toLowerCase()) );
-        if(tips.length > 5) tips = tips.slice(0, 5); 
-      };
+        if(tips.length > 5) {
+          tips = tips.slice(0, 5)
+        }
+      }
 
       return { ...state,  tips };
 

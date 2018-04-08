@@ -6,13 +6,8 @@ window.onload = function () {
         for (var i = 0; i < allAudio.length; i++) {
             allAudio[i].pause();
         }
-        var code;
-        if (e.keyCode) {
-            code = e.keyCode;
-        }
-        else {
-            code = this.getAttribute("data-key");
-        }
+        
+        var code = e.keyCode ? e.keyCode : this.getAttribute('data-key');
         var activeKey = document.querySelector('.key[data-key="' + code + '"]');
         var activeAudio = document.querySelector('audio[data-key="' + code + '"]');
         if (!activeAudio) {

@@ -1,26 +1,54 @@
 window.onload = function () {
     var allAudio = document.querySelectorAll('audio');
     var allKeys = document.querySelectorAll('.key');
+    
+    var all = [];
+    for(var i = 0; i<allAudio.length; i++){
+        var audio = {
+            id: allAudio[i].dataset.key,
+            audio: allAudio[i]
+        }
+        for(var r=0; r<allKeys.length; r++){
+            if(allKeys[r].dataset.key == audio.id){
+                audio.button = allKeys[r];
+            }
+        }
+        all.push(audio);
+    }
+    var active = {};
 
     function makeSound(e) {
-        for (var i = 0; i < allAudio.length; i++) {
-            allAudio[i].pause();
-        }
+        var code = e.keyCode ? e.keyCode : e.dataset.key;
         
-        var code = e.keyCode ? e.keyCode : this.getAttribute('data-key');
-        var activeKey = document.querySelector('.key[data-key="' + code + '"]');
-        var activeAudio = document.querySelector('audio[data-key="' + code + '"]');
-        if (!activeAudio) {
+        var newAudio = {};
+        all.forEach(function(element){
+            if(element.id == code){
+                newAudio.audio = element.audio;
+                newAudio.button = element.button;
+            }
+        });
+        if (!newAudio.audio || !newAudio.button) {
             return;
         }
-        activeAudio.currentTime = 0;
-        activeAudio.play();
-        activeKey.classList.add('playing');
+        
+        if(active.audio){
+            active.audio.pause();
+        }
+        
+        active = newAudio;
+        active.audio.currentTime = 0;
+        active.audio.play();
+        active.button.classList.add('playing');
     }
     window.addEventListener('keydown', makeSound);
-    allKeys.forEach(function (key) {
-        key.addEventListener('click', makeSound);
-    });
+    
+    window.onclick = function(e){
+        var target = e.target;
+        var button = target.closest('.key');
+        makeSound(button);
+        
+    }
+    
     allKeys.forEach(function (key) {
         key.addEventListener('transitionend', function (e) {
             if (e.propertyName !== 'transform') {

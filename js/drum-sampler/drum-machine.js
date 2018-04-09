@@ -7,9 +7,9 @@ window.onload = function () {
         var audio = {
             id: allAudio[i].dataset.key,
             audio: allAudio[i]
-        }
+        };
         for(var r=0; r<allKeys.length; r++){
-            if(allKeys[r].dataset.key == audio.id){
+            if(allKeys[r].dataset.key === audio.id){
                 audio.button = allKeys[r];
             }
         }
@@ -17,16 +17,22 @@ window.onload = function () {
     }
     var active = {};
 
-    function makeSound(e) {
-        var code = e.keyCode ? e.keyCode : e.dataset.key;
-        
+    function setNewAudio(code){
         var newAudio = {};
         all.forEach(function(element){
-            if(element.id == code){
+            if(element.id === code){
                 newAudio.audio = element.audio;
                 newAudio.button = element.button;
             }
         });
+
+        return newAudio;
+    }
+    
+    function makeSound(e) {
+        var code = e.keyCode ? e.keyCode : e.dataset.key;
+        var newAudio = setNewAudio(code.toString());
+        
         if (!newAudio.audio || !newAudio.button) {
             return;
         }
@@ -46,7 +52,6 @@ window.onload = function () {
         var target = e.target;
         var button = target.closest('.key');
         makeSound(button);
-        
     }
     
     allKeys.forEach(function (key) {

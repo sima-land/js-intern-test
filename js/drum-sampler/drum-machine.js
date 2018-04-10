@@ -6,7 +6,7 @@ window.onload = function () {
         var id = allAudio[i].dataset.key;
         var value = {
             audio: allAudio[i]
-        }
+        };
         for (var r = 0; r < allKeys.length; r++) {
             if (allKeys[r].dataset.key === id) {
                 value.button = allKeys[r];

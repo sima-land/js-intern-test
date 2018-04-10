@@ -1,30 +1,29 @@
 window.onload = function () {
     var allAudio = document.querySelectorAll('audio');
     var allKeys = document.querySelectorAll('.key');
-    var all = [];
+    var all = {};
     for (var i = 0; i < allAudio.length; i++) {
-        var audio = {
-            id: allAudio[i].dataset.key
-            , audio: allAudio[i]
-        };
+        var id = allAudio[i].dataset.key;
+        var value = {
+            audio: allAudio[i]
+        }
         for (var r = 0; r < allKeys.length; r++) {
-            if (allKeys[r].dataset.key === audio.id) {
-                audio.button = allKeys[r];
+            if (allKeys[r].dataset.key === id) {
+                value.button = allKeys[r];
             }
         }
-        all.push(audio);
+        all[id] = value;
     }
     var active = {};
 
-    function setNewAudio(code) {
-        var newAudio = {};
-        all.forEach(function (element) {
-            if (element.id === code) {
-                newAudio.audio = element.audio;
-                newAudio.button = element.button;
+    function transformButton() {
+        active.button.classList.add('playing');
+        active.button.addEventListener('transitionend', function (e) {
+            if (e.propertyName !== 'transform') {
+                return;
             }
+            this.classList.remove('playing');
         });
-        return newAudio;
     }
 
     function makeSound(newAudio) {
@@ -34,29 +33,23 @@ window.onload = function () {
         active = newAudio;
         active.audio.currentTime = 0;
         active.audio.play();
-        active.button.classList.add('playing');
+        transformButton();
     }
 
     function setAudio(e) {
         var code = e.keyCode ? e.keyCode : e.dataset.key;
-        var newAudio = setNewAudio(code.toString());
-        if (!newAudio.audio || !newAudio.button) {
+        var newAudio = all[code];
+        if (!newAudio) {
             return;
         }
         makeSound(newAudio);
     }
     window.addEventListener('keydown', setAudio);
-    window.onclick = function (e) {
+    document.querySelector('.keys').onclick = function (e) {
         var target = e.target;
         var button = target.closest('.key');
-        setAudio(button);
+        if (button) {
+            setAudio(button);
+        }
     };
-    allKeys.forEach(function (key) {
-        key.addEventListener('transitionend', function (e) {
-            if (e.propertyName !== 'transform') {
-                return;
-            }
-            this.classList.remove('playing');
-        });
-    });
 };

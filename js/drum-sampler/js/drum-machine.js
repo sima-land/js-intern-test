@@ -1,63 +1,9 @@
-      var currentAudio = new Audio;
-        function soundClickClap() {
+        var currentAudio = new Audio;
+
+        function sound(link){
+            currentAudio.pause();
             var audio = new Audio();
-            audio.src = 'sounds/clap.wav';
-            audio.autoplay = true;
-            currentAudio = audio;
-            return currentAudio;
-        }
-        function soundClickHihat() {
-            var audio = new Audio();
-            audio.src = 'sounds/hihat.wav';
-            audio.autoplay = true;
-            currentAudio = audio;
-            return currentAudio;
-        }
-        function soundClickKick() {
-            var audio = new Audio();
-            audio.src = 'sounds/kick.wav';
-            audio.autoplay = true;
-            currentAudio = audio;
-            return currentAudio;
-        }
-        function soundClickOpenHat() {
-            var audio = new Audio();
-            audio.src = 'sounds/openhat.wav';
-            audio.autoplay = true;
-            currentAudio = audio;
-            return currentAudio;
-        }
-        function soundClickBoom() {
-            var audio = new Audio();
-            audio.src = 'sounds/boom.wav';
-            audio.autoplay = true;
-            currentAudio = audio;
-            return currentAudio;
-        }
-        function soundClickRide() {
-            var audio = new Audio();
-            audio.src = 'sounds/ride.wav';
-            audio.autoplay = true;
-            currentAudio = audio;
-            return currentAudio;
-        }
-        function soundClickSnare() {
-            var audio = new Audio();
-            audio.src = 'sounds/snare.wav';
-            audio.autoplay = true;
-            currentAudio = audio;
-            return currentAudio;
-        }
-        function soundClickTom() {
-            var audio = new Audio();
-            audio.src = 'sounds/tom.wav';
-            audio.autoplay = true;
-            currentAudio = audio;
-            return currentAudio;
-        }
-        function soundClickTink() {
-            var audio = new Audio();
-            audio.src = 'sounds/tink.wav';
+            audio.src = 'sounds/'+ link +'.wav';
             audio.autoplay = true;
             currentAudio = audio;
             return currentAudio;
@@ -66,98 +12,53 @@
         function playSound(e){
      
             var root = document.getElementById("root");
-
+            
+            function animation(numb){
+                var big = anime({
+                    targets: '.key:nth-child('+ numb +')',
+                    scale: 1.2,
+                    duration: 50,
+                    direction: 'alternate'
+                });
+            }
+            
             switch(e.keyCode){
 
                 case 65:// если нажата клавиша a
-                        currentAudio.pause();
-                        soundClickClap();
-                        var big = anime({
-                            targets: '.key:nth-child(1)',
-                            scale: 1.2,
-                            duration: 50,
-                            direction: 'alternate'
-                        });
+                        sound('clap');
+                        animation(1);
                     break;
                 case 83:  // если нажата клавиша s
-                        currentAudio.pause();
-                        soundClickHihat();
-                        var big = anime({
-                            targets: '.key:nth-child(2)',
-                            scale: 1.2,
-                            duration: 50,
-                            direction: 'alternate'
-                        });
+                        sound('hihat');
+                        animation(2);
                     break;
                 case 68:
-                        currentAudio.pause();
-                        soundClickKick();
-                        var big = anime({
-                            targets: '.key:nth-child(3)',
-                            scale: 1.2,
-                            duration: 50,
-                            direction: 'alternate'
-                        });// если нажата клавиша d
+                        sound('kick');
+                        animation(3);// если нажата клавиша d
                     break;
-                case 70:   
-                        currentAudio.pause();// если нажата клавиша f
-                        soundClickOpenHat();
-                        var big = anime({
-                            targets: '.key:nth-child(4)',
-                            scale: 1.2,
-                            duration: 50,
-                            direction: 'alternate'
-                        });
+                case 70:   // если нажата клавиша f
+                        sound('openhat');
+                        animation(4);
                     break;
                 case 71:   // если нажата клавиша g
-                        currentAudio.pause();
-                        soundClickBoom();
-                        var big = anime({
-                            targets: '.key:nth-child(5)',
-                            scale: 1.2,
-                            duration: 50,
-                            direction: 'alternate'
-                        });
+                        sound('boom');
+                        animation(5);
                     break;
                 case 72:   // если нажата клавиша h
-                        currentAudio.pause();
-                        soundClickRide();
-                        var big = anime({
-                            targets: '.key:nth-child(6)',
-                            scale: 1.2,
-                            duration: 50,
-                            direction: 'alternate'
-                        });
+                        sound('ride');
+                        animation(6);
                     break;
                 case 74:   // если нажата клавиша j
-                        currentAudio.pause();
-                        soundClickSnare();
-                        var big = anime({
-                            targets: '.key:nth-child(7)',
-                            scale: 1.2,
-                            duration: 50,
-                            direction: 'alternate'
-                        });
+                        sound('snare');
+                        animation(7);
                     break;
                 case 75:   // если нажата клавиша k
-                        currentAudio.pause();
-                        soundClickTom();
-                        var big = anime({
-                            targets: '.key:nth-child(8)',
-                            scale: 1.2,
-                            duration: 50,
-                            direction: 'alternate'
-                        });
+                        sound('tom');
+                        animation(8);
                     break;
                 case 76:   // если нажата клавиша l
-                        currentAudio.pause();
-                        soundClickTink();
-                        var big = anime({
-                            targets: '.key:nth-child(9)',
-                            scale: 1.2,
-                            duration: 50,
-                            direction: 'alternate'
-                        });
+                        sound('tink');
+                        animation(9);
                     break;
             }
         }

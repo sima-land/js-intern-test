@@ -3,8 +3,9 @@ $(function(){
   var currentKeyCode;
   var key;
   var keyToResize;
-  var audioToPlay;
+  var audioLink;
   var playingAudio;
+  var audioArr;
   var tmr;
 
   prepareDoc();
@@ -18,6 +19,7 @@ $(function(){
   // нам нужна одна переменная типа Audio, с ней мы будем манипулировать, проигрывая звуки
   function prepareVars() {
     playingAudio = new Audio();
+    audioArr = prepareAudioArr();
   }
 
   // привязываем события для страницы
@@ -25,14 +27,24 @@ $(function(){
     $('body').on('keydown', keyWork);
   }
 
+  // готовим массив ссылок на audio и связанных с ними ключей 
+  function prepareAudioArr() {
+    var allAudioElems = $('audio');
+    var arr = new Array();
+    allAudioElems.each(function() {
+      arr.push({ key: $(this).data('key'), src: $(this).attr('src') });
+    });
+    return arr;
+  }
+  
   // основная работа с клавишами, получение кода клавиши, запуск озвучки и ресайза
   function keyWork(event) {
     event.preventDefault();
     key = getKeyCode(event);
     if (key) {
     getKeyElement(key);
-    getAudioElement(key);
-      if (audioToPlay.length > 0) {
+    getAudioLink(key);
+      if (audioLink) {
         playCurrentSound();
       }
       if (keyToResize.length > 0) {
@@ -60,8 +72,14 @@ $(function(){
   }
 
   // находим в каком тэге audio у нас хранится нужный звук
-  function getAudioElement(key) {
-    audioToPlay = $('audio[data-key='+key+']');
+  function getAudioLink(key) {
+    var link;
+    $(audioArr).each(function() {
+      if (this.key == key) {
+        audioLink = this.src;
+        return false;
+      }
+    });
   }
 
   // стопим звук, который проигрывается в данный момент и запускаем проигрывание нажатого
@@ -70,7 +88,7 @@ $(function(){
       playingAudio.pause();
       playingAudio.currentTime = 0;
     }
-    playingAudio.src = audioToPlay.attr('src');
+    playingAudio.src = audioLink;
 
     var playPromise = playingAudio.play();
     

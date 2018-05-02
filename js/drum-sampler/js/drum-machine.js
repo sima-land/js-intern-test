@@ -8,31 +8,12 @@ $(function(){
   var audioArr;
   var tmr;
 
-  prepareDoc();
-  prepareVars();
-
-  // по готовности документа прикрепляем обработчики
-  function prepareDoc() {
-    attachEvents();
-  }
-
-  // нам нужна одна переменная типа Audio, с ней мы будем манипулировать, проигрывая звуки
-  function prepareVars() {
-    playingAudio = new Audio();
-    audioArr = prepareAudioArr();
-  }
-
-  // привязываем события для страницы
-  function attachEvents() {
-    $('body').on('keydown', keyWork);
-  }
-
   // готовим массив ссылок на audio и связанных с ними ключей 
   function prepareAudioArr() {
     var allAudioElems = $('audio');
-    var arr = new Array();
+    var arr = {};
     allAudioElems.each(function() {
-      arr.push({ key: $(this).data('key'), src: $(this).attr('src') });
+      arr[$(this).data('key')] = $(this).attr('src');
     });
     return arr;
   }
@@ -43,7 +24,7 @@ $(function(){
     key = getKeyCode(event);
     if (key) {
     getKeyElement(key);
-    getAudioLink(key);
+    audioLink = audioArr[key];
       if (audioLink) {
         playCurrentSound();
       }
@@ -69,17 +50,6 @@ $(function(){
   // находим элемент на странице с нужным data-key
   function getKeyElement(key) {
     keyToResize = $('[data-key='+key+']', '.keys');
-  }
-
-  // находим в каком тэге audio у нас хранится нужный звук
-  function getAudioLink(key) {
-    var link;
-    $(audioArr).each(function() {
-      if (this.key == key) {
-        audioLink = this.src;
-        return false;
-      }
-    });
   }
 
   // стопим звук, который проигрывается в данный момент и запускаем проигрывание нажатого
@@ -111,4 +81,24 @@ $(function(){
     currentKey.addClass('playing');
     tmr = window.setTimeout(function() { currentKey.removeClass('playing'); }, 100);
   }
+
+  prepareDoc();
+  prepareVars();
+
+  // по готовности документа прикрепляем обработчики
+  function prepareDoc() {
+    attachEvents();
+  }
+
+  // нам нужна одна переменная типа Audio, с ней мы будем манипулировать, проигрывая звуки
+  function prepareVars() {
+    playingAudio = new Audio();
+    audioArr = prepareAudioArr();
+  }
+
+  // привязываем события для страницы
+  function attachEvents() {
+    $('body').on('keydown', keyWork);
+  }
+
 });

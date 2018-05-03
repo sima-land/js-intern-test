@@ -17,22 +17,6 @@ $(function(){
     });
     return arr;
   }
-  
-  // основная работа с клавишами, получение кода клавиши, запуск озвучки и ресайза
-  function keyWork(event) {
-    event.preventDefault();
-    key = getKeyCode(event);
-    if (key) {
-    getKeyElement(key);
-    audioLink = audioArr[key];
-      if (audioLink) {
-        playCurrentSound();
-      }
-      if (keyToResize.length > 0) {
-        resizeCurrentKey();
-      }
-    }
-  }
 
   // получаем код нажатой клавиши кроссбраузерно
   function getKeyCode(event) {
@@ -42,14 +26,9 @@ $(function(){
     }
   
     if (event.which != 0) { // все кроме IE
-      if (event.which < 32) return null; // спец. символ
+      if (event.which < 32) { return null; } // спец. символ
       return parseInt(event.which); // остальные
     }
-  }
-
-  // находим элемент на странице с нужным data-key
-  function getKeyElement(key) {
-    keyToResize = $('[data-key='+key+']', '.keys');
   }
 
   // стопим звук, который проигрывается в данный момент и запускаем проигрывание нажатого
@@ -84,6 +63,22 @@ $(function(){
 
   prepareDoc();
   prepareVars();
+
+  // основная работа с клавишами, получение кода клавиши, запуск озвучки и ресайза
+  function keyWork(event) {
+    event.preventDefault();
+    key = getKeyCode(event);
+    if (key) {
+    keyToResize = $('[data-key='+key+']', '.keys');
+    audioLink = audioArr[key];
+      if (audioLink) {
+        playCurrentSound();
+      }
+      if (keyToResize.length > 0) {
+        resizeCurrentKey();
+      }
+    }
+  }
 
   // по готовности документа прикрепляем обработчики
   function prepareDoc() {

@@ -1,18 +1,16 @@
 // Get audios from page to hash
-const audioNodes = document.querySelectorAll(`audio`);
+const audioNodes = document.querySelectorAll('audio');
 const waves = Object.keys(audioNodes).reduce((acc, wave) => {
     const soundKey = audioNodes[wave].dataset.key;  // attr 'data-key' is index
-    return {...acc, [soundKey]: audioNodes[wave]}
+    return {...acc, [soundKey]: audioNodes[wave]};
 }, {});
 
 // Play sound by code function //
 const playSound = (soundKey) => {
 
-
     // remove 'playing class from all buttons
     document.querySelectorAll('div.keys>div.playing').forEach((btn) => {
         btn.classList.remove('playing');
-        //const playingWave = document.querySelector(`audio[data-key='${btn.dataset.key}']`);
         waves[btn.dataset.key].pause();
         waves[btn.dataset.key].currentTime = 0;
     });

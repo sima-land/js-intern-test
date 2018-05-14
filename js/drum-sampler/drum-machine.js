@@ -1,14 +1,13 @@
-// Play sound by code function
+// Play sound by code function //
 const playSound = soundKey => {
 
-    // stop all sounds
-    document.querySelectorAll('audio').forEach(wave => {
-        wave.pause();
-        wave.currentTime = 0;
-    });
+
     // remove 'playing class from all buttons
-    document.querySelectorAll('div.keys>div').forEach( btn => {
+    document.querySelectorAll('div.keys>div.playing').forEach( btn => {
         btn.classList.remove('playing');
+        const playingWave = document.querySelector(`audio[data-key='${btn.dataset.key}']`);
+        playingWave.pause();
+        playingWave.currentTime = 0;
     });
 
     // play audio
@@ -25,17 +24,16 @@ const playSound = soundKey => {
 
 };
 
-// Sound button click
-const onBtnClick = e => {
-    playSound(event.currentTarget.dataset.key);
-}
+// Sound button click //
+const keys = document.querySelector('div.keys');
 
-const keys = document.querySelectorAll('div.keys>div');
-keys.forEach(key => {
-    key.addEventListener('click', onBtnClick);
+keys.addEventListener('click', e => {
+    const clickedDiv = node => node.classList.contains('key') ? node : clickedDiv(node.parentNode); // Go up to '.key' node
+    const btn = clickedDiv(e.target);
+    playSound(btn.dataset.key);
 });
 
-// Document keypress
+// Document keypress //
 const onKeyPress = e => {
     const code = e.keyCode;
     playSound(code >= 97 && code <= 122 ? code - 32 : code );    // Send UpCase key code

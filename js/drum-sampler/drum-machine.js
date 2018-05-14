@@ -1,47 +1,61 @@
-// Get audios from page to hash
-const audioNodes = document.querySelectorAll('audio');
-const waves = Object.keys(audioNodes).reduce((acc, wave) => {
-    const soundKey = audioNodes[wave].dataset.key;  // attr 'data-key' is index
-    return {...acc, [soundKey]: audioNodes[wave]};
-}, {});
+// Collection of audios and buttons from page 
+class PlayList {
+    constructor() {
+        const audioNodes = document.querySelectorAll('audio');
+        const btnNodes = document.querySelectorAll('div.keys>div');
+        this.collection = Object.keys(audioNodes).reduce((acc, wave) => {
+            const soundKey = audioNodes[wave].dataset.key;  // attr 'data-key' is index
+            return {...acc, [soundKey]: {'audio': audioNodes[wave], 'btn': btnNodes[wave] }};
+        }, {});
 
-// Play sound by code function //
-const playSound = (soundKey) => {
-
-    // remove 'playing class from all buttons
-    document.querySelectorAll('div.keys>div.playing').forEach((btn) => {
-        btn.classList.remove('playing');
-        waves[btn.dataset.key].pause();
-        waves[btn.dataset.key].currentTime = 0;
-    });
-
-    // play audio
-    const wave = document.querySelector(`audio[data-key='${soundKey}']`);
-    const btn = document.querySelector(`div.keys>div[data-key='${soundKey}']`);
-    if (wave) {
-        btn.classList.add('playing');
-        wave.addEventListener('ended', function (e) {   // add listener to current audio ended
-            btn.classList.remove('playing');  
-        },false);
-
-        wave.play().catch((err) => {});
+        this.playing = null;    // Current playing audio
     }
 
-};
+    play(soundKey) {
+        // If audio code is not present in our collection - return
+        if(!this.collection[soundKey]) return;
+
+        // If playing audio - stop it
+        if(this.playing) {  
+            this.playing.audio.pause();
+            this.playing.audio.currentTime = 0;
+            this.playing.btn.classList.remove('playing');
+        }
+        this.playing = this.collection[soundKey];
+
+        this.playing.audio.addEventListener('ended', (e) => {   // add listener to current audio ended
+            this.playing.btn.classList.remove('playing');  
+        },false);
+        
+        this.playing.audio.play()
+                          .catch((err) => {});
+        this.playing.btn.classList.add('playing');
+    }
+}
+
+
+const playList = new PlayList();
+
 
 // Sound button click //
 const keys = document.querySelector('div.keys');
 
 keys.addEventListener('click', (e) => {
-    const clickedDiv = (node) => node.classList.contains('key') ? node : clickedDiv(node.parentNode); // Go up to '.key' node
+    const clickedDiv = (node) => {   // Go up to '.key' node
+        if (node.classList.contains('key')) { return node };
+        return (node.parentNode.tagName !== 'HTML') ? clickedDiv(node.parentNode) : null;
+        
+    };
     const btn = clickedDiv(e.target);
-    playSound(btn.dataset.key);
+    if (btn) {  // If audio button clicked
+        playList.play(btn.dataset.key);
+    };
 });
 
 // Document keypress //
 const onKeyPress = (e) => {
     const code = e.keyCode;
-    playSound(code >= 97 && code <= 122 ? code - 32 : code );    // Send UpCase key code
+    playList.play(code >= 97 && code <= 122 ? code - 32 : code );    // Send UpCase key code
     
 };
 

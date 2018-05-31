@@ -8,7 +8,7 @@ import (
 )
 
 
-//DeleteUserData - входящий JSON для получения данных польз.
+//GetUserData - входящий JSON для получения данных польз.
 type GetUserData struct {
 	ID 	int    `json:"id"`
 }
@@ -19,6 +19,7 @@ type GetUserResponse struct {
 	Data []FieldValue `json:"data"`
 }
 
+//FieldValue - часть данных пользователя
 type FieldValue struct {
 	Field string 	  `json:"field"`
 	Value interface{} `json:"value"`

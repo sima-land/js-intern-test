@@ -12,7 +12,7 @@ type DeleteUserData struct {
 	ID 	int    `json:"id"`
 }
 
-//ChangeUser - хэндлер для изменения пользователя
+// DeleteUser - хэндлер для удаления пользователя
 func DeleteUser(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	id, body := getID(r.Body)

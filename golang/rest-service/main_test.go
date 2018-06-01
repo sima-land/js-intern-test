@@ -1,6 +1,7 @@
 package main
 
 import (
+	"os"
 	"bytes"
 	"testing"
 	"net/http"
@@ -15,11 +16,20 @@ import (
 )
 
 func TestAddChangeDel(t *testing.T) {
+	os.Remove("users.db")
 	db, err := sql.Open("sqlite3", "./users.db")
 	if err != nil {
 		t.Fatal(err)
 	}
 	defer db.Close()
+	sqlStmt := `
+	create table users (id integer not null primary key autoincrement, name text);`
+	_, err = db.Exec(sqlStmt)
+	if err != nil {
+		t.Errorf("%q: %s\n", err, sqlStmt)
+		return
+	}
+
 	models.SetConn(db) 
 
 	body, status, err := request("/adduser", `{"user_name": "Владимир"}`, handlers.AddUser)

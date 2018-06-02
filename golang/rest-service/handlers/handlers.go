@@ -10,6 +10,7 @@ import (
 	"strconv"
 )
 
+//запрос на получение всех записей из БД
 func AllUsers(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	result := pgdb.GetAllFromDB()
@@ -17,6 +18,7 @@ func AllUsers(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 }
 
+//запрос на получение одного пользователя
 func ShowOneUser(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 
@@ -31,10 +33,11 @@ func ShowOneUser(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+//запрос на вставку нового пользователя
 func InsertUser(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	newUser := model.User{
-		Id:   pgdb.TableIDs("users"),
+		ID:   pgdb.TableIDs("users"),
 		Name: r.FormValue("name"),
 	}
 	pgdb.InsertToDb(newUser)
@@ -44,6 +47,7 @@ func InsertUser(w http.ResponseWriter, r *http.Request) {
 
 }
 
+//запрос на обновление пользователя
 func UpdateUser(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	p := mux.Vars(r)
@@ -62,6 +66,7 @@ func UpdateUser(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+//запрос на удаление пользователя
 func DeleteUser(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	p := mux.Vars(r)

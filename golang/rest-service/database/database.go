@@ -9,6 +9,7 @@ import (
 )
 
 var (
+	//some global vars
 	DB     *sql.DB
 	dbUser = "myuser"
 	dbPass = "pass"
@@ -27,6 +28,7 @@ func init() {
 	//defer DB.Close()
 }
 
+//получить все записи из таблицы
 func GetAllFromDB() []model.User {
 	//получаем чистый слайс объектов модели User
 	uS := model.ClearSliceUser()
@@ -43,7 +45,7 @@ func GetAllFromDB() []model.User {
 
 	for rows.Next() {
 		//записываем данные из строк DB в объект User
-		err := rows.Scan(&User.Id, &User.Name)
+		err := rows.Scan(&User.ID, &User.Name)
 		if err != nil {
 			log.Println("Bad request to DB")
 		}
@@ -53,6 +55,7 @@ func GetAllFromDB() []model.User {
 	return uS
 }
 
+//получить одну запись из таблицы
 func GetOneUserFromDB(i int) (model.User, bool) {
 	//получаем чистый объект User
 	User := model.ClearUser()
@@ -66,7 +69,7 @@ func GetOneUserFromDB(i int) (model.User, bool) {
 	defer row.Close()
 
 	for row.Next() {
-		err := row.Scan(&User.Id, &User.Name)
+		err := row.Scan(&User.ID, &User.Name)
 		if err != nil {
 			log.Println(err.Error())
 			return model.User{}, false
@@ -75,7 +78,7 @@ func GetOneUserFromDB(i int) (model.User, bool) {
 	return User, true
 }
 
-//получаем уникальный ID из таблиыц для новой записи
+//получаем уникальный айди из таблицы для новой записи
 func TableIDs(nameT string) (lastID int) {
 	stringQ := "SELECT COUNT(ID) FROM " + nameT + ""
 	rows, err := DB.Query(stringQ)
@@ -96,9 +99,10 @@ func TableIDs(nameT string) (lastID int) {
 	return lastID
 }
 
+//вставка записи в таблицу
 func InsertToDb(u model.User) (string, bool) {
 	var stringQ = "INSERT INTO users (Id, Name) VALUES ($1, $2)"
-	_, err := DB.Exec(stringQ, u.Id, u.Name)
+	_, err := DB.Exec(stringQ, u.ID, u.Name)
 	if err != nil {
 		Msg = "Can't insert data to DB, try again"
 		return Msg, false
@@ -107,6 +111,7 @@ func InsertToDb(u model.User) (string, bool) {
 	return Msg, true
 }
 
+//обновление записи таблицы
 func UpdateUserToDB(p1 string, p2 int) (string, bool) {
 	stringQ := "UPDATE users SET name = $1 WHERE id = $2"
 	_, err := DB.Exec(stringQ, p1, p2)
@@ -118,6 +123,7 @@ func UpdateUserToDB(p1 string, p2 int) (string, bool) {
 	return Msg, true
 }
 
+//удаление записи из таблицы
 func DeleteToDB(i int) (string, bool) {
 	stringQ := "DELETE FROM users WHERE id = $1"
 	_, err := DB.Exec(stringQ, i)

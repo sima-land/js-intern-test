@@ -10,7 +10,7 @@ import (
 	"strconv"
 )
 
-//func AllUsers - запрос на получение всех записей из БД
+//AllUsers - запрос на получение всех записей из БД
 func AllUsers(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	result := pgdb.GetAllFromDB()
@@ -18,7 +18,7 @@ func AllUsers(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 }
 
-//func - ShowOneUser запрос на получение одного пользователя
+//ShowOneUser запрос на получение одного пользователя
 func ShowOneUser(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 
@@ -33,7 +33,7 @@ func ShowOneUser(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-//func InsertUser - запрос на вставку нового пользователя
+//InsertUser - запрос на вставку нового пользователя
 func InsertUser(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	newUser := model.User{
@@ -47,7 +47,7 @@ func InsertUser(w http.ResponseWriter, r *http.Request) {
 
 }
 
-//func UpdateUser - запрос на обновление пользователя
+//UpdateUser - запрос на обновление пользователя
 func UpdateUser(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	p := mux.Vars(r)
@@ -66,7 +66,7 @@ func UpdateUser(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-//func DeleteUser - запрос на удаление пользователя
+//DeleteUser - запрос на удаление пользователя
 func DeleteUser(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	p := mux.Vars(r)

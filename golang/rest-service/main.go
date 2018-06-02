@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/gorilla/mux"
+	_ "github.com/lib/pq"
 	h "github.com/SArtemJ/intern-test/golang/rest-service/handlers"
 	"net/http"
 )

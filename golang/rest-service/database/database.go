@@ -2,15 +2,13 @@ package database
 
 import (
 	"database/sql"
-	_ "github.com/lib/pq"
 	"fmt"
 	"github.com/SArtemJ/intern-test/golang/rest-service/model"
 	"log"
 )
 
 var (
-	//some global vars
-	// DB - var instance db
+	//DB - var instance db
 	DB     *sql.DB
 	//dbUser - user db
 	dbUser = "myuser"

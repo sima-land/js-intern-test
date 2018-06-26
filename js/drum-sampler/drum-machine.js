@@ -1,6 +1,5 @@
 $(document).keydown(function(e){
 	        k = e.keyCode;
-   			a = $('.key').attr('data-key');
 	        $('audio').each(function(){
 				    this.pause();
 				    this.currentTime = 0;

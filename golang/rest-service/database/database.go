@@ -8,7 +8,7 @@ import (
 )
 
 type User struct {
-	Id   int    `json:"id"`
+	Id   int    `json:"id,omitempty"`
 	Name string `json:"name"`
 }
 
@@ -93,8 +93,8 @@ func Create(name string) *User {
 	return &User{int(id), name}
 }
 
-func Edit(idUser int, name string) (*User, bool) {
-	_, exist := Single(idUser)
+func Edit(u *User) (*User, bool) {
+	_, exist := Single(u.Id)
 	if !exist {
 		return nil, false
 	}
@@ -103,15 +103,15 @@ func Edit(idUser int, name string) (*User, bool) {
 		"UPDATE users SET"+
 			"`name` = ?"+
 			"WHERE id = ?",
-		name,
-		idUser,
+		u.Name,
+		u.Id,
 	)
 
 	if err != nil {
 		panic(err)
 	}
 
-	return &User{idUser, name}, true
+	return u, true
 }
 
 func Delete(idUser int) bool {

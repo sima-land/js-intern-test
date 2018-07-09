@@ -11068,5 +11068,4 @@ export default [
   , 'RUN RUN PARK'
   , 'Hubba Bubba'
   , 'Avtovirazh'
-
 ]

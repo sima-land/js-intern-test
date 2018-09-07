@@ -3,7 +3,7 @@ let mySound = new Audio();
 const keyDown = event => {
   const keyCode = event.keyCode;
 
-  mySound.pause();
+  // mySound.pause();
   addClass(keyCode);
   mySound = document.querySelector(`audio[data-key='${keyCode}']`);
   mySound.play();

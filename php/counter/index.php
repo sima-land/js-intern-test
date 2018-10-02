@@ -19,8 +19,8 @@ try {
   $application = Application::getInstance();
   $fileStorage = new FileStorage();
   $application->VisitorManager = new VisitorManager($fileStorage);
-  $uniq_visitors = $application->VisitorManager->getUniq();
-  echo 'Количество уникальных посетителей: ' . '<b>' . count($uniq_visitors) . '</b>';
+  $uniq_visitors = $application->VisitorManager->visitorsByTime(60);
+  echo 'Количество уникальных посетителей за последнюю минуту: ' . '<b>' . count($uniq_visitors) . '</b>';
   echo '<br>';
   $allVis = $application ->VisitorManager->getAllVisitors();
   echo 'Посетелей всего: ' . count($allVis);

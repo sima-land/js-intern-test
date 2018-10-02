@@ -33,7 +33,6 @@ class NosqlStorage implements VisitorStorage {
  * implements one interface
  */
 class FileStorage implements VisitorStorage {
-  const TIMEOUT = 15;
   const STORAGE_FILE_NAME = 'visitor_cookie.txt';
   const SEPARATOR = '==';
   public static $loadCount = 0;
@@ -91,18 +90,7 @@ class FileStorage implements VisitorStorage {
     return $visitorsData;
   }
 
-
-  public function getUniq() : Array {
-    $visitors = $this->data;
-    $uniqVisitors = [];
-    foreach ($this->data as $id => $visitor) {
-      if ((intval($visitor['lastVisit']) + static::TIMEOUT) >= time()) {
-          $uniqVisitors[$id] = $visitor;
-      }
-    }
-    return $uniqVisitors;
-  }
-
+  
   public function save($data) {
     if (!file_put_contents($this->file, serialize($data))) {
       throw new \Exception('errors save storage');

@@ -1,6 +1,7 @@
 <?php
 require_once './application.php';
 require_once './components/visitor_manager.php';
+require_once './components/cookie_manager.php';
 require_once './storages.php';
 
 //set mode
@@ -14,9 +15,11 @@ function dump($data) {
   }
 }
 
+
 // APPLICATION START
 try {
   $application = Application::getInstance();
+  $application->CookieManager = new CookieManager($_COOKIE);
   $fileStorage = new FileStorage();
   $application->VisitorManager = new VisitorManager($fileStorage);
   $uniq_visitors = $application->VisitorManager->visitorsByTime(60);
@@ -25,5 +28,5 @@ try {
   $allVis = $application ->VisitorManager->getAllVisitors();
   echo 'Посетелей всего: ' . count($allVis);
 } catch (Exception $e) {
-  echo $e->getMessage();
+   echo '<div>Произошла ошибка: ' . '<b>'. $e->getMessage(). '</b>' . '</div>';
 }

@@ -10,7 +10,7 @@ class VisitorManager {
   }
 
   public function visitorsByTime($timeOut = false) {
-    if ($timeOut === false) $timenOut = static::TIMEOUT;
+    if ($timeOut === false) $timeOut = static::TIMEOUT;
     $visitors = $this->storage->getList();
     $uniqVisitors = [];
     foreach ($visitors as $id => $visitor) {

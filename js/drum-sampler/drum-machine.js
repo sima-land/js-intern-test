@@ -15,7 +15,7 @@ document.addEventListener('keydown', (evt) => {
             currSound.pause();
 
             keys.forEach((key) => {
-                key.classList.contains('scale') ? key.classList.remove('scale') : null;        
+                key.style.transform = 'scale(1)';
             });
         }
     }
@@ -25,12 +25,12 @@ document.addEventListener('keydown', (evt) => {
     keyCodes.forEach((code, i) => {
         if (currCode === Number(code)) {
             currKey = keys[i];
-            currKey.classList.add('scale');
+            currKey.style.transform = 'scale(1.2)';
 
             currSound = document.querySelector('audio[data-key="' + code + '"]');
 
             currSound.addEventListener('ended', () => {
-                currKey.classList.remove('scale');
+                currKey.style.transform = 'scale(1)';
             });
 
             currSound.currentTime = 0.0;

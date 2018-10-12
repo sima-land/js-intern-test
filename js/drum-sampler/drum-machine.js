@@ -1,22 +1,22 @@
-`use strict`;
+'use strict';
 
-const keys = [...document.querySelectorAll(`.key`)];
+const keys = [...document.querySelectorAll('.key')];
 const keyCodes = keys.map( (el) => {
-    return el.getAttribute(`data-key`);
+    return el.getAttribute('data-key');
 });
 
 let currKey;
 let currSound;
 let currCode;
 
-document.addEventListener(`keydown`, (evt) => {
+document.addEventListener('keydown', (evt) => {
     if (currSound) {
         if (currSound.currentTime > 0) {
             currSound.pause();
 
             keys.forEach((key) => {
-                key.classList.contains(`scale`) ? key.classList.remove(`scale`) : null;        
-            })
+                key.classList.contains('scale') ? key.classList.remove('scale') : null;        
+            });
         }
     }
 
@@ -25,12 +25,12 @@ document.addEventListener(`keydown`, (evt) => {
     keyCodes.forEach((code, i) => {
         if (currCode === Number(code)) {
             currKey = keys[i];
-            currKey.classList.add(`scale`);
+            currKey.classList.add('scale');
 
-            currSound = document.querySelector(`audio[data-key="${ code }"]`);
+            currSound = document.querySelector('audio[data-key="' + code + '"]');
 
-            currSound.addEventListener(`ended`, () => {
-                currKey.classList.remove(`scale`);
+            currSound.addEventListener('ended', () => {
+                currKey.classList.remove('scale');
             });
 
             currSound.currentTime = 0.0;

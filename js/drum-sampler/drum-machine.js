@@ -37,4 +37,4 @@ document.addEventListener('keydown', (evt) => {
             currSound.play();
         }
     });
-})
+});

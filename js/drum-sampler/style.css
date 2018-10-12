@@ -48,3 +48,18 @@ kbd {
   letter-spacing: 1px;
   color:#ffc600;
 }
+
+@keyframes scaling {
+  o% {
+    transform: scale(0);
+  }
+  100% {
+    transform: scale(1.2);
+  }
+}
+
+.scale {
+  animation-name: scaling;
+  animation-duration: 500ms;
+  animation-fill-mode: forwards;
+}

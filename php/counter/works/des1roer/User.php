@@ -16,7 +16,7 @@
         {
             if (empty($_COOKIE[self::NAME])) {
                 $_COOKIE[self::NAME] = $this->getUniqName();
-                setcookie(self::NAME, $this->getUniqName());
+                setcookie(self::NAME, $this->$_COOKIE[self::NAME]);
                 file_put_contents($this->getDirName(), '');
             } else {
                 touch($this->getDirName());

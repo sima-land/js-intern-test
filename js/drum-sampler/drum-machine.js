@@ -24,7 +24,7 @@ function btnHighlight (keyCode) {
     btn.classList.toggle('playing');
     setTimeout(() => {
         btn.classList.toggle('playing');
-    }, 1000);
+    }, 500);
 }
 
 
@@ -33,21 +33,7 @@ function btnHighlight (keyCode) {
 //проверка возможности проигрывания аудио
 function check_audio() {
     var elem = document.createElement('audio'), bool = false;
-    try {
-        if ( bool = !!elem.canPlayType ) {
-        bool = new Boolean(bool);
-        bool.wav = elem.canPlayType('audio/wav; codecs="1"').replace(/^no$/,'');
-        }
-    } catch(e) {}
-
-    return bool;
+        if ( bool = !!elem.canPlayType )   return bool;
 }
 
-var b = check_audio();
-
-if(!b) {
-    alert('Audio не поддерживается');
-    } else {
-    var formats = 'wav';
-    console.log(formats + ' - ' + b[formats]);
-}
+if(!check_audio()) alert('Audio не поддерживается');

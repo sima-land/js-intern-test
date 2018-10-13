@@ -1,7 +1,6 @@
 var currentAudio;
 
 document.addEventListener('keydown', playAudio);
-document.addEventListener('ended', btnNormilize);
 
 //метод остановки воспроизведения
 HTMLAudioElement.prototype.stop = function() {
@@ -11,10 +10,10 @@ this.currentTime = 0.0;
 
 //проигрывание звука
 function playAudio (event) {
-    if (currentAudio) currentAudio.stop;
+    if (currentAudio) currentAudio.stop();
     currentAudio = document.querySelector(`audio[data-key="${event.keyCode}"]`);
     if (currentAudio != null) {
-        currentAudio.play;
+        currentAudio.play();
         btnHighlight(event.keyCode);
     }
 }
@@ -22,15 +21,16 @@ function playAudio (event) {
 //подсветить кнопку
 function btnHighlight (keyCode) {
     var btn = document.querySelector(`div[data-key="${keyCode}"]`);
-    btn.classList.add('playing');
+    btn.classList.toggle('playing');
+    setTimeout(() => {
+        btn.classList.toggle('playing');
+    }, 1000);
 }
 
-//убрать подсветку
-function btnNormilize () {
-    buttons = Array.from(document.querySelectorAll('.playing')).forEach(e => {e.classList.toggle('playing')})
-}
 
-/* //проверка возможности проигрывания аудио
+
+
+//проверка возможности проигрывания аудио
 function check_audio() {
     var elem = document.createElement('audio'), bool = false;
     try {
@@ -46,8 +46,8 @@ function check_audio() {
 var b = check_audio();
 
 if(!b) {
-    document.write('Audio не поддерживается');
+    alert('Audio не поддерживается');
     } else {
     var formats = 'wav';
     console.log(formats + ' - ' + b[formats]);
-} */
+}

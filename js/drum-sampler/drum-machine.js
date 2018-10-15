@@ -31,9 +31,9 @@ function btnHighlight (keyCode) {
 
 
 //проверка возможности проигрывания аудио
-function check_audio() {
+function checkAudio() {
     var elem = document.createElement('audio'), bool = false;
         if ( bool = !!elem.canPlayType )   return bool;
 }
 
-if(!check_audio()) alert('Audio не поддерживается');
+if(!checkAudio()) alert('Audio не поддерживается');

@@ -7,7 +7,6 @@
     */
 
     // Доброго времени суток. Моя версия счётчики посетителей сайта онлайн.
-    // Про ООП в зададнии ничего сказано не было, поэтому для наглядности сделал всё в одном файлике.
 
     session_start();
 
@@ -16,12 +15,20 @@
     $visitors = [];
     $myID = $_SERVER['REMOTE_ADDR'] . '::' . $_COOKIE['PHPSESSID'];
 
+//    $t = microtime();
 
     // Проверка на существование и размер файла.
     if(is_readable($filename) && filesize($filename))
     {
-        // Если файл существует и он не пустой, преобразуем данные в строку и преобразуем в массив сериализованые данные.
-        $visitors = unserialize(file_get_contents($filename));
+        //Если файл существует и он не пустой, начинаем с ним работу в режиме записи в конец файла
+        $file = fopen($filename, "r+t");
+
+        //Блокируем файл на чтение и запись
+        flock($file, LOCK_EX);
+
+        // Читаем файл и преобразуем в массив сериализованые данные.
+        $visitors = unserialize(fread($file, filesize($filename)));
+
 
         // Выбираем только записи с ключом 'id', и проверяем нет ли id текущего пользователя в массиве
         if (!in_array($myID, array_column($visitors, 'id')))
@@ -40,19 +47,38 @@
                 unset($visitors[$key]);
             }
         }
+        // Очищаем файл.
+        ftruncate($file, 0);
+
+        // Переходим в его начало.
+        fseek($file, SEEK_SET);
+
+        // Сериализуем данные из полученного, после проверок, массива $visitors и записываем их в файл.
+        fwrite($file, serialize($visitors));
+
+        // Очищаем вывод.
+        fflush($file);
+
+        //Снимаем блокировку.
+        flock($file, LOCK_UN);
+
+        //Завершаем работу с файлом.
+        fclose($file);
 
     } else {
         // А если файла нет или он пустой, то добавляяем сведения о текущем пользователе в массив посетителей сайта.
         $visitors[] =  ['id' => $myID, 'time' => time()];
+        // Сериализуем данные и записываем их в файл.
+        file_put_contents($filename, serialize($visitors));
 
     }
 
-    // Сериализуем данные из полученного, после проверок, массива $visitors и записываем их в файл.
-    file_put_contents($filename, serialize($visitors));
-
-
     // Колличество активных, уникальных посетителей сайта
     $count = count($visitors);
+
+//    $t1 = microtime() - $t;
+
+
 ?>
 <!doctype html>
 <html lang="en">

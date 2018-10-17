@@ -1,32 +1,36 @@
 {
-  "name": "search-tips",
+  "name": "dz",
   "version": "1.0.0",
-  "description": "test-implementaion of search-tips with react-redux stack",
+  "description": "",
   "main": "index.js",
-  "scripts": {
-    "test": "test",
-    "start": "npm run build; webpack-dev-server --open",
-    "build": "webpack -p --config ./webpack.config.js"
-  },
-  "author": "",
-  "license": "ISC",
   "dependencies": {
-    "react": "16.3.2",
-    "react-redux": "5.0.7",
-    "redux": "4.0.0",
-    "react-dom": "16.3.2",
-    "redux-devtools-extension": "2.13.2"
+    "babel-polyfill": "^6.26.0",
+    "npm": "^6.2.0",
+    "react": "^16.4.2",
+    "react-dom": "^16.4.2",
+    "react-redux": "^5.0.7",
+    "redux": "^4.0.1",
+    "redux-devtools-extension": "^2.13.5"
   },
   "devDependencies": {
     "babel-core": "^6.26.3",
-    "babel-loader": "^7.1.4",
-    "babel-preset-env": "^1.6.1",
+    "babel-loader": "^7.1.5",
+    "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
-    "css-loader": "0.28.11",
-    "jest": "22.4.3",
-    "style-loader": "0.21.0",
-    "webpack": "4.6.0",
-    "webpack-cli": "^2.0.15",
-    "webpack-dev-server": "3.1.3"
-  }
+    "babel-preset-stage-2": "^6.24.1",
+    "css-loader": "^1.0.0",
+    "html-webpack-plugin": "^3.2.0",
+    "react-router-dom": "^4.3.1",
+    "style-loader": "^0.21.0",
+    "webpack": "^4.16.3",
+    "webpack-cli": "^3.1.0",
+    "webpack-dev-server": "^3.1.5"
+  },
+  "scripts": {
+    "dev": "webpack-dev-server --mode development --config webpack.config.js ",
+    "build": "webpack --mode production --config webpack.config.js "
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
 }

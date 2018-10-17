@@ -1,7 +1,7 @@
 const search = (state = {}, action) => {
   switch (action.type) {
-    case 'search':
-      return {};
+    case 'SEARCH':
+      return { request:action.searchLetters};
     default:
       return state;
   }

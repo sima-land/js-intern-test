@@ -1,9 +1,5 @@
-import { combineReducers } from 'redux';
-
 import search from './search-reducer';
 
-const reducer = combineReducers({
-  search
-});
+const reducer = search;
 
 export default reducer;

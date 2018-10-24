@@ -1,0 +1,8 @@
+.search-tips span{
+    padding: 10px;
+    width: 200px;
+    display: block;
+    border: 1px solid black;
+    margin-top: 5px;
+    font-size: 18px;
+}

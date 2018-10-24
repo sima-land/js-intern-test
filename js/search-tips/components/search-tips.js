@@ -1,7 +1,18 @@
 import React from 'react';
 
-const SearchTips = (props) => (
-  <div className="search-tips"></div>
-);
+const SearchTips = ({hints}) => {
+
+    const elements = hints.map((item)=>{
+        return (
+            <span>{item}<br/></span>
+        )
+    })
+    return (
+        <div className="search-tips">
+            { elements }
+        </div>
+    )
+
+};
 
 export default SearchTips;

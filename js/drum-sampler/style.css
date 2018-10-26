@@ -8,7 +8,11 @@ body,html {
   padding: 0;
   font-family: sans-serif;
 }
-
+.active {
+  background-color: darken(#444, 10%);
+  transform: scale(1.1);
+  transition: all .2s;
+}
 .keys {
   display:flex;
   flex:1;
@@ -29,11 +33,28 @@ body,html {
   color:white;
   background:rgba(0,0,0,0.4);
   text-shadow:0 0 5px black;
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* Internet Explorer */
+  -khtml-user-select: none; /* KHTML browsers (e.g. Konqueror) */
+  -webkit-user-select: none; /* Chrome, Safari, and Opera */
+  -webkit-touch-callout: none; /* Disable Android and iOS callouts*/
+}
+.key:hover {
+  background-color: #00BFFF;
+  box-shadow: 0 0 1rem #7adcff;
+  border-color:#1E90FF;
+  cursor: pointer;
+}
+
+.key:active {
+  background-color: #7adcff;
+  transform: scale(1.1);
+  transition: all .2s;
 }
 
 .playing {
   transform:scale(1.1);
-  border-color:#ffc600;
+  border-color:#00BFFF;
   box-shadow: 0 0 10px #ffc600;
 }
 

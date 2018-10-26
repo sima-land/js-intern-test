@@ -13,7 +13,6 @@ function playSound(btnCode) {
         }
         audio.play()
     }
-
 }
 
 function fillBtn(btnCode) {

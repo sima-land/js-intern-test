@@ -15,19 +15,27 @@ const forEachEl = (els, cb) => {
 const sounds = document.getElementsByTagName("audio");
 const keys = document.getElementsByClassName("key");
 
+const highlight = key => {
+  key.className = "key playing";
+};
+
+const unhighlight = key => {
+  key.className = "key";
+};
+
 let prevSoundIndex;
 document.onkeydown = e => {
   forEachEl(sounds, (sound, i) => {
     if (e.which == sound.dataset.key) {
       sound.currentTime = 0;
-      keys[i].className = "key playing";
+      highlight(keys[i]);
 
       sound.onended = () => {
-        keys[i].className = "key";
+        unhighlight(keys[i]);
       };
 
       if (prevSoundIndex !== undefined && prevSoundIndex !== i) {
-        keys[prevSoundIndex].className = "key";
+        unhighlight(keys[prevSoundIndex]);
       }
 
       prevSoundIndex = i;

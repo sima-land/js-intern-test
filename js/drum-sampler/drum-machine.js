@@ -26,12 +26,8 @@ document.onkeydown = e => {
         keys[i].className = "key";
       };
 
-      if (prevSoundIndex !== undefined) {
-        if (prevSoundIndex === i) {
-          sounds[prevSoundIndex].currentTime = 0;
-        } else {
-          keys[prevSoundIndex].className = "key";
-        }
+      if (prevSoundIndex !== undefined && prevSoundIndex !== i) {
+        keys[prevSoundIndex].className = "key";
       }
 
       prevSoundIndex = i;

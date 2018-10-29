@@ -19,12 +19,19 @@ let prevSoundIndex;
 document.onkeydown = e => {
   forEachEl(sounds, (sound, i) => {
     if (e.which == sound.dataset.key) {
+      sound.currentTime = 0;
       keys[i].className = "key playing";
 
-      if (prevSoundIndex !== undefined && prevSoundIndex !== i) {
-        keys[prevSoundIndex].className = "key";
-        sounds[prevSoundIndex].pause();
-        sounds[prevSoundIndex].currentTime = 0;
+      sound.onended = () => {
+        keys[i].className = "key";
+      };
+
+      if (prevSoundIndex !== undefined) {
+        if (prevSoundIndex === i) {
+          sounds[prevSoundIndex].currentTime = 0;
+        } else {
+          keys[prevSoundIndex].className = "key";
+        }
       }
 
       prevSoundIndex = i;

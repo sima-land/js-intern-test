@@ -52,11 +52,8 @@
     const stopAllMusic = () => {
         for(let i = 0; i < elKeys.length; i++){
             let currentData = elKeys[i].getAttribute('data-key');
-            // Фикс проблемы: Uncaught (in promise) DOMException: The play() request was interrupted by a call to pause()
-            if(currentData.play !== undefined){
-                sounds[currentData].pause(); 
-                sounds[currentData].load();
-            }
+            sounds[currentData].pause(); 
+            sounds[currentData].load();
             
         };
     };

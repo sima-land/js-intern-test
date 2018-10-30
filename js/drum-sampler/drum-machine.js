@@ -21,32 +21,41 @@
         "76": new Audio("./sounds/tink.wav")
     }
     
+    
     const elKeys = document.getElementsByClassName("key");
     
     
-    
     // Основная логика работы приложение
-    
     const init = () => {
         const keyListenerDown = document.addEventListener('keydown', (event) => {
             stopAllMusic();
-            const keyName = eventKeyToChar(event.key)
+            const keyName = eventKeyToChar(event.key);
             if (Object.keys(sounds).indexOf(keyName) >= 0) {
                 getCurrentButton(keyName);
                 sounds[keyName].play();
-            }
+            };
         });
+
         
         // отпуск клавиши
         const keyListenerUp = document.addEventListener('keyup', (event) => {
-            const keyName = eventKeyToChar(event.key)
+            const keyName = eventKeyToChar(event.key);
             if (Object.keys(sounds).indexOf(keyName) >= 0) {
                 resetCurrentButton(keyName);
-            }
-        })
+            };
+        });
         
-    }
-    
+    };
+
+
+    // Остонавливаем и обновляем все звуки
+    const stopAllMusic = () => {
+        for(let i = 0; i < elKeys.length; i++){
+            let currentData = elKeys[i].getAttribute('data-key');
+            sounds[currentData].pause(); 
+            sounds[currentData].load();
+        };
+    };
     
     
     // функция, для обработки полученного значение и приведения его к строке
@@ -58,17 +67,15 @@
     }
     
     
-    
-    
     // Добавляем стили для полученого значения
     const getCurrentButton = (key) => {
         for (let i = 0; i < elKeys.length; i++) {
             if (elKeys[i].getAttribute('data-key') === key) {
-                elKeys[i].classList.add('playing')
-                elKeys[i].classList.add('sound')
-            }
-        }
-    }
+                elKeys[i].classList.add('playing');
+                elKeys[i].classList.add('sound');
+            };
+        };
+    };
     
     
     // Удаляем стили из текущего значения
@@ -77,19 +84,9 @@
             if (elKeys[i].getAttribute('data-key') === key) {
                 elKeys[i].classList.remove('playing');
                 elKeys[i].classList.remove('sound');
-            }
-        }
-    }
-    
-    
-    // Остонавливаем и обновляем все звуки
-    const stopAllMusic = () => {
-        for(let i = 0; i < elKeys.length; i++){
-            let currentData = elKeys[i].getAttribute('data-key');
-            sounds[currentData].pause(); 
-            sounds[currentData].load();
-        }
-    }
+            };
+        };
+    };
     
     
     // перевод сиволов из кириллицы в английский
@@ -116,8 +113,8 @@
                 return "L"
             default:
                 return letter.toUpperCase();
-        }
-    }
+        };
+    };
     
     
     // Инициализация основной функции

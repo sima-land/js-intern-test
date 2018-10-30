@@ -8,21 +8,21 @@
 6. Добавляем текущему элементу стили и запускаем звук (предварительно обнуляем все текущие дорожки)
 7. При поднятии клавиши, удаляем стили
 */
-(function(){
+const drumMachine = (function(){
     const sounds = {
-        "65": new Audio("./sounds/clap.wav"),
-        "83": new Audio("./sounds/hihat.wav"),
-        "68": new Audio("./sounds/kick.wav"),
-        "70": new Audio("./sounds/openhat.wav"),
-        "71": new Audio("./sounds/boom.wav"),
-        "72": new Audio("./sounds/ride.wav"),
-        "74": new Audio("./sounds/snare.wav"),
-        "75": new Audio("./sounds/tom.wav"),
-        "76": new Audio("./sounds/tink.wav")
+        '65': new Audio('./sounds/clap.wav'),
+        '83': new Audio('./sounds/hihat.wav'),
+        '68': new Audio('./sounds/kick.wav'),
+        '70': new Audio('./sounds/openhat.wav'),
+        '71': new Audio('./sounds/boom.wav'),
+        '72': new Audio('./sounds/ride.wav'),
+        '74': new Audio('./sounds/snare.wav'),
+        '75': new Audio('./sounds/tom.wav'),
+        '76': new Audio('./sounds/tink.wa')
     }
     
 
-    const elKeys = document.getElementsByClassName("key");
+    const elKeys = document.getElementsByClassName('key');
     
     
     // Основная логика работы приложение
@@ -94,24 +94,24 @@
     const translator = (letter) => {
         letter = letter.toLowerCase();
         switch(letter){
-            case "ф":
-                return "A"
-            case "ы":
-                return "S"
-            case "в":
-                return "D"
-            case "а":
-                return "F"
-            case "п":
-                return "G"
-            case "р":
-                return "H"
-            case "о":
-                return "J"
-            case "л":
-                return "K"
-            case "д":
-                return "L"
+            case 'ф':
+                return 'A'
+            case 'ы':
+                return 'S'
+            case 'в':
+                return 'D'
+            case 'а':
+                return 'F'
+            case 'п':
+                return 'G'
+            case 'р':
+                return 'H'
+            case 'о':
+                return 'J'
+            case 'л':
+                return 'K'
+            case 'д':
+                return 'L'
             default:
                 return letter.toUpperCase();
         };

@@ -15,6 +15,9 @@ function isPrimeNumber(number) {
 
 //console.log(isPrimeNumber(aCoord));
 function antionToModern(antionNumber) {
+  if (typeof antionNumber !== "number") {
+    throw new TypeError("Not a number");
+  }
   if (isPrimeNumber(antionNumber)) {
     throw new TypeError("Bad argument");
   }
@@ -102,3 +105,4 @@ customTest(antionToModern, 0, { x: 0, y: 0 });
 customTest(antionToModern, 27, { x: 0, y: -2 });
 customTest(antionToModern, 3, { x: 1, y: 0 });
 customTest(antionToModern, 6, { x: 1, y: 0 });
+customTest(antionToModern, "stroka", { x: 1, y: 0 });

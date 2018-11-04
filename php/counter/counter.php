@@ -7,7 +7,6 @@ function GetCount()
 
 	if (!file_exists($DBName))
 	{
-		echo '!!!!!!!!!!!!!!!!!!';
 		file_put_contents($DBName, '');
 	}
 	if(!isset($_COOKIE['guest']))

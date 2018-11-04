@@ -4,7 +4,7 @@ import (
 	"math"
 )
 
-// Counts not prime numbers using Eratosthenes sieve
+// Sieve counts not prime numbers using Eratosthenes sieve
 func Sieve(pos int) (ulamPos int) {
 	ulamPos = 0
 	if pos > 1 {
@@ -46,7 +46,7 @@ func Sieve(pos int) (ulamPos int) {
 	return ulamPos
 }
 
-// Transforms place on modified Ulam spiral to cartesian coordinates
+// UlamToCartesian transforms place on modified Ulam spiral to cartesian coordinates
 func UlamToCartesian(pos int) (x, y int) {
 	closestSqrt := int(math.Floor(math.Sqrt(float64(pos))))
 	minOddSqrt := closestSqrt

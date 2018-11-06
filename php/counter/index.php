@@ -18,11 +18,6 @@ class UniqueUsers {
 					$this->users += 1;
 				}
 			}
-			$handle = fopen('cookie.txt', 'w');
-			foreach($this->cookies as $key => $value){
-				fwrite($handle, $key . '=>' . $value);
-			}
-			fclose($handle);
 		}
 	}
 	

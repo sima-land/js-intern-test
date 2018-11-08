@@ -7,75 +7,17 @@ use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\Response;
 use yii\filters\VerbFilter;
-use app\models\LoginForm;
-use app\models\ContactForm;
+use app\components\Counter;
+
 
 class SiteController extends Controller
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function behaviors()
-    {
-        return [
-            'access' => [
-                'class' => AccessControl::className(),
-                'only' => ['logout'],
-                'rules' => [
-                    [
-                        'actions' => ['logout'],
-                        'allow' => true,
-                        'roles' => ['@'],
-                    ],
-                ],
-            ],
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'logout' => ['post'],
-                ],
-            ],
-        ];
-    }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function actions()
-    {
-        return [
-            'error' => [
-                'class' => 'yii\web\ErrorAction',
-            ],
-            'captcha' => [
-                'class' => 'yii\captcha\CaptchaAction',
-                'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
-            ],
-        ];
-    }
 
-    /**
-     * Displays homepage.
-     *
-     * @return string
-     */
     public function actionIndex()
     {
-
-        $counter = Yii::getAlias('@runtime').'/counter.php';
-        require_once($counter);
-        $users = json_decode($users, TRUE);
-        foreach( $users as $key => $user ){
-            if ( $user + 60 < time() ){
-                unset($users[$key]);
-            }
-        }
-        $cookies = Yii::$app->request->cookies->getValue('_csrf');
-        $users[$cookies] = time();
-        file_put_contents($counter, '<?php $users = \''.json_encode($users).'\'; ?>');
-
         return $this->render('index', [
-            'users' => count($users),
+            'users' => Counter::getCounter(),
         ]);
 
     }

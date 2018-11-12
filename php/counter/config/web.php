@@ -44,14 +44,18 @@ $config = [
             ],
         ],
         'db' => $db,
-        
+
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
             ],
         ],
-        
+
+        'counter' => [
+            'class' => 'app\components\Counter',
+        ],
+
     ],
     'params' => $params,
 ];

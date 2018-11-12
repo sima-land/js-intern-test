@@ -16,8 +16,10 @@ class SiteController extends Controller
 
     public function actionIndex()
     {
+        $users = new Counter;
+        $users_count = $users->getCounter();
         return $this->render('index', [
-            'users' => Counter::getCounter(),
+            'users' => $users_count,
         ]);
 
     }

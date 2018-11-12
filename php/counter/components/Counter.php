@@ -9,13 +9,21 @@ use Yii;
  */
 class Counter
 {
+    private $time;
 
-    public static function getCounter () {
+    public function __construct() {
+        $this->time = Yii::$app->params['time'];
+    }
+
+    public function getCounter ( $time = null ) {
+        if ( $time === null ) {
+            $time = $this->time;
+        }
         $counter = Yii::getAlias('@runtime').'/counter.php';
         require_once($counter);
         $users = json_decode($users, TRUE);
         foreach( $users as $key => $user ){
-            if ( $user + 60 < time() ){
+            if ( $user + $time < time() ){
                 unset($users[$key]);
             }
         }

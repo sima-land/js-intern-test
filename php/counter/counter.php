@@ -1,80 +1,62 @@
-<?
-// $d = how many seconds we use to calculate counter
-function CounterByCookie($d = null){
-// define cookie
-		if(isset($_COOKIE['counter'])){
-				$a = $_COOKIE['counter'];
-		}else{
-				$b = 'qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM';
-				$a = '';
-				for($i = 0; $i <= 6; $i++){
-						$a .= $b[mt_rand(0, (strlen($b) - 1))];
-				}
-				unset($b, $i);
-				setcookie('counter', $a);
+<?php
+// длительность сбора активных пользователей, в секуднах
+$delay = 60;
+// определяемся с куками
+$cookie = $_COOKIE['counter'];
+if(is_null($cookie)){
+		$temp = 'qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM';
+		$cookie = '';
+		for($i = 0; $i <= 6; $i++){
+				$cookie .= $temp[mt_rand(0, (strlen($temp) - 1))];
 		}
-
-// create memcache
-		$b = new Memcache;
-		$b->connect('localhost', 11211);
-
-// how many seconds we use to calculate counter
-		if(is_null($d)){$d = 10;}
-
-// counter by default
-		$e = 0;
-
-// lock process
-		while(true){
-				$c = &$b->get('lC');
-// locking
-				if(gettype($c) == 'boolean'){
-						$b->add('lC', '+', MEMCACHE_COMPRESSED, $d);
-						break;
-				}
-// locking
-				if($c == '-'){
-						$b->replace('lC', '+', MEMCACHE_COMPRESSED, $d);
-						break;
-				}
-		usleep(100);
+		unset($temp, $i);
+		setcookie('counter', $cookie);
+}
+// создаем соединение с кешем
+$cache = new Memcache;
+$cache->connect('localhost', 11211);
+// проверяем и делаем блокировку
+while(true){
+		$temp = &$cache->get('lC');
+		if(gettype($temp) == 'boolean'){
+				$cache->add('lC', '+', MEMCACHE_COMPRESSED, $delay);
+				break;
 		}
-		unset($c);
-
-// check record existing
-		for($i = 0; $i <= $d; $i++){
-
-// calculate key
-				$f = (string)(time() - $i);
-
-// calculate value
-				$g = unserialize($b->get($f));
-
-// we found it, record existed
-				if(gettype($g) == 'array'){
-
-// find cookie in record
-						if(!in_array($a, $g)){$g[] = $a;}
-
-// update with new time()
-						$b->delete($f);
-						$b->add((string)time(), serialize($g), MEMCACHE_COMPRESSED, $d);
-						$e = count($g);
-
-// unlocking
-						$b->replace('lC', '-', MEMCACHE_COMPRESSED, $d);
-						break;
-				}
+		if($temp == '-'){
+				$cache->replace('lC', '+', MEMCACHE_COMPRESSED, $delay);
+				break;
 		}
-// no any action ?
-		if($e == 0){
-				$b->add('lC', '+', MEMCACHE_COMPRESSED, $d);
-				$b->add((string)time(), serialize(array(&$a)), MEMCACHE_COMPRESSED, $d);
-				$b->replace('lC', '-', MEMCACHE_COMPRESSED, $d);
-				$e = 1;
+usleep(100);
+}
+unset($temp);
+// проверяем кеш, при проверке получаем две ветки развития событий
+for($i = 0; $i <= $d; $i++){
+		// вычисляем ключ
+		$key = (string)(time() - $i);
+		// вычисляем значение ключа
+		$value = unserialize($cache->get($key));
+		// значение валидно - первая ветка
+		if(gettype($value) == 'array'){
+		// ищем куку в значениее
+		if(!in_array($cookie, $value)){
+				$value[] = $cookie;
 		}
-		return $e;
+		// обновляем имя ключа
+		$cache->delete($key);
+		$cache->add((string)time(), serialize($value), MEMCACHE_COMPRESSED, $delay);
+		$counter = count($value);
+		// снимаем блокировку
+		$b->replace('lC', '-', MEMCACHE_COMPRESSED, $d);
+		break;
+		}
+}
+// вторая ветка - ни одного активного пользователя не нашлось
+if(!isset($counter)){
+		$cache->add('lC', '+', MEMCACHE_COMPRESSED, $delay);
+		$cache->add((string)time(), serialize(array(&$cookie)), MEMCACHE_COMPRESSED, $delay);
+		$cache->replace('lC', '-', MEMCACHE_COMPRESSED, $delay);
+		$counter = 1;
 }
 
-echo CounterByCookie();
+echo $counter;
 ?>

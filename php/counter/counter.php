@@ -4,6 +4,11 @@ function GetCount()
 	$DBDir		= '.\guests\\';
 	$LifeTime	= 60;
 
+	// Определяем существует ли каталог
+	if (!file_exists($DBDir) or !is_dir($DBDir))
+		if (!@mkdir($DBDir)) return '[ !!! Директория "'.$DBDir.'" не существует !!! ]';
+
+	// ставим куки
 	if (!isset($_COOKIE['guest']))
 	{
 		$GuestHash = sha1(time().rand(0,1000000));

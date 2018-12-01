@@ -1,7 +1,9 @@
-const search = (state = {}, action) => {
+const initialState = "There is no such phrase"
+
+const search = (state = initialState, action) => {
   switch (action.type) {
     case 'search':
-      return {};
+      return action.filter
     default:
       return state;
   }

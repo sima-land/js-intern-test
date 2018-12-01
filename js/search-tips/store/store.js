@@ -3,11 +3,12 @@ import reducer from '../reducers';
 import data from '../data/words';
 
 let preloadedState = {
-  words: data
+  words: data,
+  search: {}
 };
 
 
-const store = createStore(reducer, preloadedState);
+const store = createStore(reducer);
 
 export { preloadedState };
 

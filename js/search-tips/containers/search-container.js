@@ -11,7 +11,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   filterWord: (text) => {
-    dispatch(actions.filter(text))
+    dispatch(actions.filter(text));
   }
 }); 
 

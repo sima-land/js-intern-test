@@ -1,4 +1,4 @@
-import initialState from '../data/words';
+import initialState from "../data/words";
 
 const words = (state = initialState, action) => {
   return state;

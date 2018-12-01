@@ -4,10 +4,10 @@ import SearchTips from '../components/search-tips';
 const SearchForm =
   (props) => {
     function handleInput(event) {
-      props.filterWord(event.target.value)
+      props.filterWord(event.target.value);
     }
     function getFiltredWords(words, filter) {
-      return words.filter(word => word.indexOf(filter) > -1).slice(0,5)
+      return words.filter((word) => word.indexOf(filter) > -1).slice(0,5);
     }
     return (
       <section>
@@ -16,5 +16,5 @@ const SearchForm =
         <SearchTips words={getFiltredWords(props.words, props.filter)}/>
       </section>
     );
-  }
+  };
 export default SearchForm;

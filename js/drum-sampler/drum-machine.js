@@ -7,14 +7,14 @@ function playMisic(event) {
   if (keys.indexOf(keyCode) === -1) {
     return;
   }
-  
-  audios.forEach(audio => {audio.load()});
+
+  audios.forEach((audio) => {audio.load();});
   const audioToPlay = audios.find((audio) => audio.dataset.key === keyCode);
   audioToPlay.play();
   
-  plates.forEach(plate => {plate.classList.remove("playing")});
+  plates.forEach((plate) => {plate.classList.remove("playing");});
   const plateToShow = plates.find((plate) => plate.dataset.key === keyCode);
-  plateToShow.classList.add("playing")
+  plateToShow.classList.add("playing");
 }
 
 window.addEventListener("keydown", playMisic);

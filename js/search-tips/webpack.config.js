@@ -1,9 +1,9 @@
-const { resolve } = require('path');
+const { resolve, join } = require('path');
 const webpack = require('webpack');
 
 module.exports = {
   entry: {
-    bundle: './index.js'
+    bundle: './src/index.js'
   },
 
   output: {
@@ -22,12 +22,29 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use: [ 'style-loader', 'css-loader' ]
+        use: [
+          {
+            loader: 'style-loader'
+          },
+          {
+            loader: 'css-loader',
+            options: {
+              modules: true,
+            }
+          }
+        ]
       }
     ]
   },
-  resolve: {
-    extensions: ['.js', '.jsx']
+  devServer: {
+    contentBase: join(__dirname, '/'),
+    compress: false,
+    port: 9000,
+    host: 'localhost',
+    disableHostCheck: true,
+    hot: true
   },
-  plugins: []
+  plugins: [
+    new webpack.HotModuleReplacementPlugin()
+  ]
 };

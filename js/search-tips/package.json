@@ -2,10 +2,10 @@
   "name": "search-tips",
   "version": "1.0.0",
   "description": "test-implementaion of search-tips with react-redux stack",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
     "test": "test",
-    "start": "npm run build; webpack-dev-server --open",
+    "start": "webpack-dev-server --open",
     "build": "webpack -p --config ./webpack.config.js"
   },
   "author": "",

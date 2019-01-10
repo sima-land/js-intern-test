@@ -3,14 +3,15 @@ import SearchTips from '../search-tips';
 
 import style from './style.css';
 
-const SearchForm =
-  () =>
-    (
-      <section>
-        <h1 className={style.header}>Поисковые подсказки</h1>
-        <input className="search-input" type="search"/>
-        <SearchTips />
-      </section>
-    );
+export default class SearchForm extends React.Component {
+    render() {
+        return(
+            <section>
+                <h1 className={style.header}>Поисковые подсказки</h1>
+                <input className="search-input" type="search" onChange={this.props.onChangeInputValue}/>
+                <SearchTips />
+            </section>
+        );
+    }
+}
 
-export default SearchForm;

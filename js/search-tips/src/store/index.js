@@ -1,22 +1,28 @@
-import { createStore } from 'redux';
+import { applyMiddleware, createStore, combineReducers } from 'redux'
+import thunkMiddleware from 'redux-thunk'
 import data from '../data/words';
-
-import { combineReducers } from 'redux';
-
 import search from './search/reducer';
+import monitorReducersEnhancer from '../enhancers/monitorReducers'
+import loggerMiddleware from '../middlewares/logger'
+import { composeWithDevTools } from 'redux-devtools-extension'
 
-const reducer = combineReducers({
+const rootReducer = combineReducers({
   search
 });
 
-
-let preloadedState = {
-  words: data
+const initialState = {
+  search: {
+    words: data
+  }
 };
 
-
-const index = createStore(reducer, preloadedState);
-
-export { preloadedState };
-
-export default index;
+export default function configureStore() {
+  // const middlewares = [loggerMiddleware, thunkMiddleware];
+  // const middlewareEnhancer = applyMiddleware(...middlewares);
+  //
+  // const enhancers = [middlewareEnhancer, monitorReducersEnhancer];
+  // const composedEnhancers = composeWithDevTools(...enhancers);
+// debugger;
+//   return createStore(rootReducer, initialState, composedEnhancers)
+  return createStore(rootReducer, initialState)
+}

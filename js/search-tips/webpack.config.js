@@ -1,7 +1,13 @@
 const { resolve, join } = require('path');
 const webpack = require('webpack');
+const DEVELOPMENT = 'development';
+const PRODUCTION = 'production';
 
-module.exports = {
+const NODE_ENV = process.env.NODE_ENV;
+
+
+const config = {
+  mode: NODE_ENV === DEVELOPMENT ? DEVELOPMENT : PRODUCTION,
   entry: {
     bundle: './src/index.js'
   },
@@ -48,3 +54,13 @@ module.exports = {
     new webpack.HotModuleReplacementPlugin()
   ]
 };
+
+if (NODE_ENV === 'development') {
+  config.plugins.push(
+      new webpack.DefinePlugin({
+        NODE_ENV: JSON.stringify(DEVELOPMENT),
+      })
+  )
+}
+
+module.exports = config;

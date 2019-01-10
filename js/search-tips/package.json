@@ -4,26 +4,37 @@
   "description": "test-implementaion of search-tips with react-redux stack",
   "main": "src/index.js",
   "scripts": {
-    "test": "test",
-    "start": "webpack-dev-server --open",
-    "build": "webpack -p --config ./webpack.config.js"
+    "test": "jest",
+    "watch:test": "npm test -- --watch",
+    "watch:dev": "cross-env NODE_ENV=development webpack-dev-server --open",
+    "build:dev": "cross-env NODE_ENV=production webpack -p --config ./webpack.config.js",
+    "build:prod": "cross-env NODE_ENV=development webpack -d --config ./webpack.config.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "react": "16.3.2",
+    "react-dom": "16.3.3",
     "react-redux": "5.0.7",
     "redux": "4.0.0",
-    "react-dom": "16.3.3",
-    "redux-devtools-extension": "2.13.2"
+    "redux-actions": "^2.6.4",
+    "redux-namespaced-actions": "^0.1.1",
+    "redux-thunk": "^2.3.0"
   },
   "devDependencies": {
     "babel-core": "^6.26.3",
+    "babel-jest": "^23.6.0",
     "babel-loader": "^7.1.4",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-env": "^1.6.1",
     "babel-preset-react": "^6.24.1",
+    "chai": "^4.2.0",
+    "cross-env": "^5.2.0",
     "css-loader": "0.28.11",
+    "enzyme": "^3.8.0",
     "jest": "22.4.3",
+    "redux-devtools-extension": "^2.13.2",
+    "sinon": "^7.2.2",
     "style-loader": "0.21.0",
     "webpack": "4.6.0",
     "webpack-cli": "^2.0.15",

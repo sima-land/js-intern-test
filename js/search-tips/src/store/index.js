@@ -23,6 +23,7 @@ export default function configureStore() {
   // const enhancers = [middlewareEnhancer, monitorReducersEnhancer];
   // const composedEnhancers = composeWithDevTools(...enhancers);
 // debugger;
+  // TODO: fix composedEnhancers
 //   return createStore(rootReducer, initialState, composedEnhancers)
   return createStore(rootReducer, initialState)
 }

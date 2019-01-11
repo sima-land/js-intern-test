@@ -1,3 +1,12 @@
+:local(.section) {
+    width: 350px;
+}
+
 :local(.header) {
     color: blue;
+}
+
+:local(.input) {
+    width: 100%;
+    padding: 10px 5px;
 }

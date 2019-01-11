@@ -1,6 +1,5 @@
 import { applyMiddleware, createStore, combineReducers } from 'redux'
 import thunkMiddleware from 'redux-thunk'
-import data from '../data/words';
 import search from './search/reducer';
 import monitorReducersEnhancer from '../enhancers/monitorReducers'
 import loggerMiddleware from '../middlewares/logger'
@@ -11,9 +10,7 @@ const rootReducer = combineReducers({
 });
 
 const initialState = {
-  search: {
-    words: data
-  }
+  search: null
 };
 
 export default function configureStore() {

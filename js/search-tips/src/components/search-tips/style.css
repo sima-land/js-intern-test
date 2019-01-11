@@ -1,3 +1,12 @@
-:local(.tips) {
-    background: #200;
+:local(.results) {
+    box-shadow: 0 0 #000;
+}
+
+:local(.row) {
+    padding: 10px;
+}
+
+:local(.row:hover) {
+    cursor: pointer;
+    background: #ccc;
 }

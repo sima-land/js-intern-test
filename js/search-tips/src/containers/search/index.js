@@ -7,7 +7,7 @@ const mapStateToProps = state => state;
 
 const mapDispatchToProps = dispatch => {
     return {
-        onChangeInputValue: () => dispatch(textEdit())
+        onChangeInputValue: (e) => dispatch(textEdit(e.target.value))
     };
 };
 

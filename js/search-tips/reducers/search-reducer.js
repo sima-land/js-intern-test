@@ -1,7 +1,7 @@
-const search = (state = {}, action) => {
+const search = (state = '', action) => {
   switch (action.type) {
     case 'search':
-      return {};
+      return action.payload;
     default:
       return state;
   }

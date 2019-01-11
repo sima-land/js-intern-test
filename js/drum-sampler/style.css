@@ -48,3 +48,6 @@ kbd {
   letter-spacing: 1px;
   color:#ffc600;
 }
+.zoom{
+  transform: scale(1.5);
+}

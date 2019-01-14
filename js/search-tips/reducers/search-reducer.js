@@ -1,7 +1,24 @@
-const search = (state = {}, action) => {
+const initialState = {
+  data: [],
+  error: false
+}
+const search = (state = initialState, action) => {
   switch (action.type) {
-    case 'search':
-      return {};
+    case 'SEARCH':
+      return {
+        data: [],
+        error: false
+      }
+    case 'COMPLETE':
+      return {
+        data: action.data,
+        error: false
+      }
+    case 'FAIL':
+      return {
+        data: [],
+        error: true
+      }
     default:
       return state;
   }

@@ -10,6 +10,7 @@ import (
 )
 
 func Distributor(writer http.ResponseWriter, request *http.Request) {
+	writer.Header().Add("Content-type", "application/json; charset=utf-8")
 	switch mux.Vars(request)["object"] {
 	case "user":
 		switch mux.Vars(request)["method"] {

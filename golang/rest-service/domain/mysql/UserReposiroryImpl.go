@@ -24,7 +24,7 @@ func (msuc *mySqlUserConnector) AddUserS(user User) (err error) {
 }
 
 func (msuc *mySqlUserConnector) GetUserByID(id int) (user User, err error) {
-	err = msuc.connector.QueryRow("select `id`, `name` from `user` where `id` = ? limit 1;").Scan(&user.ID, &user.Name)
+	err = msuc.connector.QueryRow("select `id`, `name` from `user` where `id` = ? limit 1;", id).Scan(&user.ID, &user.Name)
 	return
 }
 

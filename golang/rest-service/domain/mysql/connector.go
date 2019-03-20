@@ -2,6 +2,7 @@ package mysql
 
 import (
 	"database/sql"
+	_ "github.com/go-sql-driver/mysql"
 	. "github.com/kostyaBro/intern-test/golang/rest-service/config"
 	. "github.com/kostyaBro/intern-test/golang/rest-service/domain/i"
 	"log"

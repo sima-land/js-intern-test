@@ -2,26 +2,27 @@ package mysql
 
 import (
 	"database/sql"
-	_ "github.com/go-sql-driver/mysql"
-	. "github.com/kostyaBro/intern-test/golang/rest-service/config"
-	. "github.com/kostyaBro/intern-test/golang/rest-service/domain/i"
+	_ "github.com/go-sql-driver/mysql" // this is driver for mysql
+	"github.com/kostyaBro/intern-test/golang/rest-service/config"
+	di "github.com/kostyaBro/intern-test/golang/rest-service/domain/i"
 	"log"
 	"strconv"
 )
 
-type mySqlConnector struct {
+type mySQLConnector struct {
 	connector *sql.DB
 }
 
-var instance *mySqlConnector
+var instance *mySQLConnector
 
-func GetInstance() IRepositoryCombiner {
-	db, err := sql.Open("mysql", MySqlUser+":"+MySqlPass+
-		"@tcp("+MySqlHost+":"+strconv.Itoa(MySqlPort)+")/"+MySqlName+"?parseTime=true")
+// this is function for grt instance of singleton
+func GetInstance() di.IRepositoryCombiner {
+	db, err := sql.Open("mysql", config.MySQLUser+":"+config.MySQLPass+
+		"@tcp("+config.MySQLHost+":"+strconv.Itoa(config.MySQLPort)+")/"+config.MySQLName+"?parseTime=true")
 	if err != nil {
 		log.Printf("ERR mysql.GetInstance err %s", err.Error())
 	}
-	instance = &mySqlConnector{
+	instance = &mySQLConnector{
 		connector: db,
 	}
 	return instance

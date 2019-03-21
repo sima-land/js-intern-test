@@ -3,13 +3,16 @@ package api
 import (
 	"encoding/json"
 	"github.com/gorilla/mux"
-	. "github.com/kostyaBro/intern-test/golang/rest-service/domain/i"
+	di "github.com/kostyaBro/intern-test/golang/rest-service/domain/i"
 	"github.com/kostyaBro/intern-test/golang/rest-service/domain/mysql"
 	"log"
 	"net/http"
 )
 
-func Distributor(writer http.ResponseWriter, request *http.Request) {
+/*
+This function is a handler for api. Calls the desired handler.
+*/
+func HandlerDistributor(writer http.ResponseWriter, request *http.Request) {
 	writer.Header().Add("Content-type", "application/json; charset=utf-8")
 	switch mux.Vars(request)["object"] {
 	case "user":
@@ -36,11 +39,11 @@ func Distributor(writer http.ResponseWriter, request *http.Request) {
 	}
 }
 
-func addUser(writer http.ResponseWriter, request *http.Request, adder IUserRepositoryAdder) {
-	var user User
+func addUser(writer http.ResponseWriter, request *http.Request, adder di.IUserRepositoryAdder) {
+	var user di.User
 	err := json.NewDecoder(request.Body).Decode(&user)
 	if err != nil {
-		log.Printf("api.Distributor %s/%s err %s", mux.Vars(request)["object"], mux.Vars(request)["method"], err.Error())
+		log.Printf("api.HandlerDistributor %s/%s err %s", mux.Vars(request)["object"], mux.Vars(request)["method"], err.Error())
 		returnBadRequest(writer, request)
 		return
 	}
@@ -50,18 +53,18 @@ func addUser(writer http.ResponseWriter, request *http.Request, adder IUserRepos
 	}
 	err = adder.AddUser(user.Name)
 	if err != nil {
-		log.Printf("api.Distributor %s/%s err %s", mux.Vars(request)["object"], mux.Vars(request)["method"], err.Error())
+		log.Printf("api.HandlerDistributor %s/%s err %s", mux.Vars(request)["object"], mux.Vars(request)["method"], err.Error())
 		returnInternalServerError(writer, request)
 		return
 	}
 	json.NewEncoder(writer).Encode(success)
 }
 
-func updateUser(writer http.ResponseWriter, request *http.Request, updater IUserRepositoryUpdater) {
-	var user User
+func updateUser(writer http.ResponseWriter, request *http.Request, updater di.IUserRepositoryUpdater) {
+	var user di.User
 	err := json.NewDecoder(request.Body).Decode(&user)
 	if err != nil {
-		log.Printf("api.Distributor %s/%s err %s", mux.Vars(request)["object"], mux.Vars(request)["method"], err.Error())
+		log.Printf("api.HandlerDistributor %s/%s err %s", mux.Vars(request)["object"], mux.Vars(request)["method"], err.Error())
 		returnBadRequest(writer, request)
 		return
 	}
@@ -71,18 +74,18 @@ func updateUser(writer http.ResponseWriter, request *http.Request, updater IUser
 	}
 	err = updater.UpdateUserS(user)
 	if err != nil {
-		log.Printf("api.Distributor %s/%s err %s", mux.Vars(request)["object"], mux.Vars(request)["method"], err.Error())
+		log.Printf("api.HandlerDistributor %s/%s err %s", mux.Vars(request)["object"], mux.Vars(request)["method"], err.Error())
 		returnInternalServerError(writer, request)
 		return
 	}
 	json.NewEncoder(writer).Encode(success)
 }
 
-func getUser(writer http.ResponseWriter, request *http.Request, geter IUserRepositoryGetter) {
-	var user User
+func getUser(writer http.ResponseWriter, request *http.Request, getter di.IUserRepositoryGetter) {
+	var user di.User
 	err := json.NewDecoder(request.Body).Decode(&user)
 	if err != nil {
-		log.Printf("api.Distributor %s/%s err %s", mux.Vars(request)["object"], mux.Vars(request)["method"], err.Error())
+		log.Printf("api.HandlerDistributor %s/%s err %s", mux.Vars(request)["object"], mux.Vars(request)["method"], err.Error())
 		returnBadRequest(writer, request)
 		return
 	}
@@ -90,20 +93,20 @@ func getUser(writer http.ResponseWriter, request *http.Request, geter IUserRepos
 		returnBadRequest(writer, request)
 		return
 	}
-	user, err = geter.GetUserByID(user.ID)
+	user, err = getter.GetUserByID(user.ID)
 	if err != nil {
-		log.Printf("api.Distributor %s/%s err %s", mux.Vars(request)["object"], mux.Vars(request)["method"], err.Error())
+		log.Printf("api.HandlerDistributor %s/%s err %s", mux.Vars(request)["object"], mux.Vars(request)["method"], err.Error())
 		returnInternalServerError(writer, request)
 		return
 	}
 	json.NewEncoder(writer).Encode(output{Status: "success", Value: user})
 }
 
-func deleteUser(writer http.ResponseWriter, request *http.Request, deleter IUserRepositoryDeleter) {
-	var user User
+func deleteUser(writer http.ResponseWriter, request *http.Request, deleter di.IUserRepositoryDeleter) {
+	var user di.User
 	err := json.NewDecoder(request.Body).Decode(&user)
 	if err != nil {
-		log.Printf("api.Distributor %s/%s err %s", mux.Vars(request)["object"], mux.Vars(request)["method"], err.Error())
+		log.Printf("api.HandlerDistributor %s/%s err %s", mux.Vars(request)["object"], mux.Vars(request)["method"], err.Error())
 		returnBadRequest(writer, request)
 		return
 	}
@@ -113,7 +116,7 @@ func deleteUser(writer http.ResponseWriter, request *http.Request, deleter IUser
 	}
 	err = deleter.DeleteUser(user.ID)
 	if err != nil {
-		log.Printf("api.Distributor %s/%s err %s", mux.Vars(request)["object"], mux.Vars(request)["method"], err.Error())
+		log.Printf("api.HandlerDistributor %s/%s err %s", mux.Vars(request)["object"], mux.Vars(request)["method"], err.Error())
 		returnInternalServerError(writer, request)
 		return
 	}

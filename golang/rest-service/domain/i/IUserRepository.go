@@ -31,7 +31,7 @@ type IUserRepositoryUpdater interface {
 	UpdateUserS(user User) (err error)
 }
 
-// this is interface for delete user
+// IUserRepositoryDeleter is interface for delete user
 type IUserRepositoryDeleter interface {
 	DeleteUser(id int) (err error)
 }

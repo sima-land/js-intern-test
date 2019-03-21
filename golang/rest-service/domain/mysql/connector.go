@@ -15,7 +15,7 @@ type mySQLConnector struct {
 
 var instance *mySQLConnector
 
-// this is function for grt instance of singleton
+// GetInstance is function for grt instance of singleton
 func GetInstance() di.IRepositoryCombiner {
 	db, err := sql.Open("mysql", config.MySQLUser+":"+config.MySQLPass+
 		"@tcp("+config.MySQLHost+":"+strconv.Itoa(config.MySQLPort)+")/"+config.MySQLName+"?parseTime=true")

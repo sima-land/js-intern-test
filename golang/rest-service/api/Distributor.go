@@ -9,9 +9,7 @@ import (
 	"net/http"
 )
 
-/*
-This function is a handler for api. Calls the desired handler.
-*/
+// HandlerDistributor is a handler for api. Calls the desired handler.
 func HandlerDistributor(writer http.ResponseWriter, request *http.Request) {
 	writer.Header().Add("Content-type", "application/json; charset=utf-8")
 	switch mux.Vars(request)["object"] {

@@ -15,7 +15,7 @@ func main() {
 /*
 P.S.
 comments in
-golang/rest-service/config/config.go:3-7
+golang/rest-service/config/config.go:3-11
 golang/rest-service/domain/i/IUserRepository.go:3
 golang/rest-service/domain/i/IUserRepository.go:9
 golang/rest-service/domain/i/IUserRepository.go:17

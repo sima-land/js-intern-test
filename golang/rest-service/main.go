@@ -2,10 +2,10 @@ package main
 
 import (
 	"database/sql"
-	"flag"
 	"net/http"
 
 	"github.com/go-chi/chi"
+	"github.com/koding/multiconfig"
 	"github.com/krocos/errors"
 	_ "github.com/mattn/go-sqlite3"
 	"github.com/rs/zerolog/log"
@@ -20,33 +20,49 @@ var (
 	build   = ""
 )
 
+//Config represents the service configuration structure.
+type Config struct {
+	Service struct {
+		Listen string `json:"listen" yaml:"listen" default:":8080"`
+	} `json:"service" yaml:"service"`
+	Database struct {
+		Init bool   `json:"init" yaml:"init" default:"false"`
+		Path string `json:"path" yaml:"path" default:"data/database.sqlite"`
+	} `json:"database" yaml:"database"`
+}
+
 func main() {
 	log.Logger = log.Logger.With().Str("version", version).Str("build", build).Logger()
 
-	path := flag.String("path", "data/database.sqlite", "Path to an sqlite database file")
-	init := flag.Bool("init", false, "Do we need to init a database schema?")
-	listen := flag.String("listen", ":8080", "The address to listen on")
+	config := new(Config)
 
-	flag.Parse()
-
-	db, err := sql.Open("sqlite3", *path)
+	mconf := multiconfig.NewWithPath("config/config.yml")
+	err := mconf.Load(config)
 	if err != nil {
 		log.
 			Fatal().
 			Err(err).
-			Str("path", *path).
+			Msg("failed to load configuration")
+	}
+
+	db, err := sql.Open("sqlite3", config.Database.Path)
+	if err != nil {
+		log.
+			Fatal().
+			Err(err).
+			Str("path", config.Database.Path).
 			Msg("open a database connection")
 	}
 
 	s := sqlite.New(db)
 
-	if *init {
+	if config.Database.Init {
 		err = s.InitStructure()
 		if err != nil {
 			log.
 				Fatal().
 				Err(err).
-				Str("path", *path).
+				Str("path", config.Database.Path).
 				RawJSON("stack", errors.RawJsonStack(err)).
 				Msg("failed to init the database structure")
 		}
@@ -65,6 +81,6 @@ func main() {
 
 	log.
 		Fatal().
-		Err(http.ListenAndServe(*listen, r)).
+		Err(http.ListenAndServe(config.Service.Listen, r)).
 		Msg("failed to still serve")
 }

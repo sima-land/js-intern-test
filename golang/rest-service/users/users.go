@@ -1,7 +1,7 @@
 package users
 
 import (
-	"fmt"
+	"github.com/krocos/errors"
 )
 
 //User represents the user structure suitable for json-encoding.
@@ -25,15 +25,19 @@ type Users struct {
 
 //Create creates new user.
 func (u *Users) Create(name string) (user *User, err error) {
+	errfields := map[string]interface{}{
+		"name": name,
+	}
+
 	l := len([]rune(name))
 	if l < 6 || l > 255 {
-		return nil, fmt.Errorf("new user name (%s) can't be less than "+
-			"6 characters or greater than 255", name)
+		return nil, errors.NewWithFields("new user name can't be less than "+
+			"6 characters or greater than 255", errfields)
 	}
 
 	id, err := u.s.Create(name)
 	if err != nil {
-		return nil, fmt.Errorf("create user: %v", err)
+		return nil, errors.WrapWithFields(err, "failed to create user in the storage", errfields)
 	}
 
 	return &User{ID: id, Name: name}, nil
@@ -41,13 +45,17 @@ func (u *Users) Create(name string) (user *User, err error) {
 
 //User loads user.
 func (u *Users) User(id int) (user *User, err error) {
+	errfields := map[string]interface{}{
+		"id": id,
+	}
+
 	if id == 0 {
-		return nil, fmt.Errorf("user %d id can't be 0", id)
+		return nil, errors.NewWithFields("user id can't be 0", errfields)
 	}
 
 	name, err := u.s.User(id)
 	if err != nil {
-		return nil, fmt.Errorf("get user %d: %v", id, err)
+		return nil, errors.WrapWithFields(err, "failed to get user from the storage", errfields)
 	}
 
 	if name == "" {
@@ -59,19 +67,24 @@ func (u *Users) User(id int) (user *User, err error) {
 
 //Edit edit user by user id.
 func (u *Users) Edit(id int, name string) (user *User, err error) {
+	errfields := map[string]interface{}{
+		"id":       id,
+		"new_name": name,
+	}
+
 	if id == 0 {
-		return nil, fmt.Errorf("user %d id can't be 0", id)
+		return nil, errors.NewWithFields("user id can't be 0", errfields)
 	}
 
 	l := len([]rune(name))
 	if l < 6 || l > 255 {
-		return nil, fmt.Errorf("user %d name (%s) can't be less than "+
-			"6 characters or greater than 255", id, name)
+		return nil, errors.NewWithFields("new user name can't be less than "+
+			"6 characters or greater than 255", errfields)
 	}
 
 	name, err = u.s.Edit(id, name)
 	if err != nil {
-		return nil, fmt.Errorf("edit user %d: %v", id, err)
+		return nil, errors.WrapWithFields(err, "failed to edit user in the storage", errfields)
 	}
 
 	if name == "" {
@@ -83,13 +96,17 @@ func (u *Users) Edit(id int, name string) (user *User, err error) {
 
 //Delete deletes user by user id.
 func (u *Users) Delete(id int) error {
+	errfields := map[string]interface{}{
+		"id": id,
+	}
+
 	if id == 0 {
-		return fmt.Errorf("user %d id can't be 0", id)
+		return errors.NewWithFields("user id can't be 0", errfields)
 	}
 
 	err := u.s.Delete(id)
 	if err != nil {
-		return fmt.Errorf("delete user %d: %v", id, err)
+		return errors.WrapWithFields(err, "failed to delete user from the storage", errfields)
 	}
 
 	return nil

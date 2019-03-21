@@ -2,16 +2,17 @@ package handler
 
 import (
 	"encoding/json"
-	"log"
 	"net/http"
 	"strconv"
 
 	"github.com/go-chi/chi"
+	"github.com/krocos/errors"
+	"github.com/rs/zerolog/log"
 
 	"github.com/sima-land/intern-test/golang/rest-service/users"
 )
 
-//Users abstract the logic for a work with users.
+//Users abstracts the logic for a work with users.
 type Users interface {
 	Create(name string) (*users.User, error)
 	User(id int) (*users.User, error)
@@ -27,6 +28,19 @@ type editRequest struct {
 	Name string `json:"name"`
 }
 
+//Response represents a common response structure.
+type Response struct {
+	Result interface{} `json:"result"`
+	Error  *Error      `json:"error"`
+}
+
+//Error represents an error to pass in Response.
+type Error struct {
+	Code    int         `json:"code"`
+	Message string      `json:"message"`
+	Details interface{} `json:"details"`
+}
+
 //Create wraps the create user handler to pass the dependency through.
 func Create(u Users) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
@@ -36,21 +50,45 @@ func Create(u Users) http.HandlerFunc {
 		req := new(createRequest)
 		err := json.NewDecoder(r.Body).Decode(req)
 		if err != nil {
-			log.Printf("json-decode request: %v", err)
-			http.Error(w, "json-decode request failed", http.StatusBadRequest)
+			log.Error().Err(err).Msg("json-decode request")
+
+			w.WriteHeader(http.StatusBadRequest)
+
+			serr := json.NewEncoder(w).Encode(Response{Error: &Error{
+				Code:    http.StatusBadRequest,
+				Message: "failed to json-decode request",
+				Details: err.Error(),
+			}})
+			if serr != nil {
+				log.Error().Err(serr).Msg("failed to json-encode a response")
+			}
 			return
 		}
 
 		user, err := u.Create(req.Name)
 		if err != nil {
-			log.Printf("user creation: %v", err)
-			http.Error(w, "failed to create user", http.StatusInternalServerError)
+			log.
+				Error().
+				Err(err).
+				RawJSON("stack", errors.RawJsonStack(err)).
+				Msg("failed to create user")
+
+			w.WriteHeader(http.StatusInternalServerError)
+
+			serr := json.NewEncoder(w).Encode(Response{Error: &Error{
+				Code:    http.StatusInternalServerError,
+				Message: "failed to create user",
+				Details: errors.Stack(err),
+			}})
+			if serr != nil {
+				log.Error().Err(serr).Msg("failed to json-encode a response")
+			}
 			return
 		}
 
-		err = json.NewEncoder(w).Encode(user)
+		err = json.NewEncoder(w).Encode(Response{Result: user})
 		if err != nil {
-			log.Printf("json-encode a response: %v", err)
+			log.Error().Err(err).Msg("failed to json-encode a response")
 		}
 	}
 }
@@ -63,27 +101,60 @@ func User(u Users) http.HandlerFunc {
 
 		id, err := strconv.Atoi(chi.URLParam(r, "id"))
 		if err != nil {
-			log.Printf("getting user id: %v", err)
-			http.Error(w, "failed to get user id", http.StatusBadRequest)
+			log.Error().Err(err).Msg("failed to get user id")
+
+			w.WriteHeader(http.StatusBadRequest)
+
+			serr := json.NewEncoder(w).Encode(Response{Error: &Error{
+				Code:    http.StatusBadRequest,
+				Message: "failed to get user id",
+				Details: err.Error(),
+			}})
+			if serr != nil {
+				log.Error().Err(err).Msg("failed to json-encode a response")
+			}
 			return
 		}
 
 		user, err := u.User(id)
 		if err != nil {
-			log.Printf("user getting: %v", err)
-			http.Error(w, "failed to edit user", http.StatusInternalServerError)
+			log.
+				Error().
+				Err(err).
+				RawJSON("stack", errors.RawJsonStack(err)).
+				Msg("failed to get user")
+
+			w.WriteHeader(http.StatusInternalServerError)
+
+			serr := json.NewEncoder(w).Encode(Response{Error: &Error{
+				Code:    http.StatusInternalServerError,
+				Message: "failed to get user",
+				Details: errors.Stack(err),
+			}})
+			if serr != nil {
+				log.Error().Err(err).Msg("failed to json-encode a response")
+			}
 			return
 		}
 
 		if user == nil {
-			log.Printf("user %d not found", id)
-			http.Error(w, "user not found", http.StatusNotFound)
+			log.Error().Str("id", strconv.Itoa(id)).Msg("user not found")
+
+			w.WriteHeader(http.StatusNotFound)
+
+			serr := json.NewEncoder(w).Encode(Response{Error: &Error{
+				Code:    http.StatusNotFound,
+				Message: "user not found",
+			}})
+			if serr != nil {
+				log.Error().Err(err).Msg("failed to json-encode a response")
+			}
 			return
 		}
 
-		err = json.NewEncoder(w).Encode(user)
+		err = json.NewEncoder(w).Encode(Response{Result: user})
 		if err != nil {
-			log.Printf("json-encode a response: %v", err)
+			log.Error().Err(err).Msg("failed to json-encode a response")
 		}
 	}
 }
@@ -96,37 +167,78 @@ func Edit(u Users) http.HandlerFunc {
 
 		id, err := strconv.Atoi(chi.URLParam(r, "id"))
 		if err != nil {
-			log.Printf("getting user id: %v", err)
-			http.Error(w, "failed to get user id", http.StatusBadRequest)
+			log.Error().Err(err).Msg("failed to get user id")
+
+			w.WriteHeader(http.StatusBadRequest)
+
+			serr := json.NewEncoder(w).Encode(Response{Error: &Error{
+				Code:    http.StatusBadRequest,
+				Message: "failed to get user id",
+				Details: err.Error(),
+			}})
+			if serr != nil {
+				log.Error().Err(err).Msg("failed to json-encode a response")
+			}
 			return
 		}
 
 		req := new(editRequest)
 		err = json.NewDecoder(r.Body).Decode(req)
 		if err != nil {
-			log.Printf("json-decode request: %v", err)
-			http.Error(w, "json-decode request failed", http.StatusBadRequest)
+			log.Error().Err(err).Msg("json-decode request")
+
+			w.WriteHeader(http.StatusBadRequest)
+
+			serr := json.NewEncoder(w).Encode(Response{Error: &Error{
+				Code:    http.StatusBadRequest,
+				Message: "failed to json-decode request",
+				Details: err.Error(),
+			}})
+			if serr != nil {
+				log.Error().Err(serr).Msg("failed to json-encode a response")
+			}
 			return
 		}
 
 		user, err := u.Edit(id, req.Name)
 		if err != nil {
-			log.Printf("user editing: %v", err)
-			http.Error(w, "failed to edit user", http.StatusInternalServerError)
+			log.
+				Error().
+				Err(err).
+				RawJSON("stack", errors.RawJsonStack(err)).
+				Msg("failed to edit user")
+
+			w.WriteHeader(http.StatusInternalServerError)
+
+			serr := json.NewEncoder(w).Encode(Response{Error: &Error{
+				Code:    http.StatusInternalServerError,
+				Message: "failed to edit user",
+				Details: errors.Stack(err),
+			}})
+			if serr != nil {
+				log.Error().Err(err).Msg("failed to json-encode a response")
+			}
 			return
 		}
 
 		if user == nil {
-			log.Printf("user %d not found", id)
-			http.Error(w, "user not found", http.StatusNotFound)
+			log.Error().Str("id", strconv.Itoa(id)).Msg("user not found")
+
+			w.WriteHeader(http.StatusNotFound)
+
+			serr := json.NewEncoder(w).Encode(Response{Error: &Error{
+				Code:    http.StatusNotFound,
+				Message: "user not found",
+			}})
+			if serr != nil {
+				log.Error().Err(err).Msg("failed to json-encode a response")
+			}
 			return
 		}
 
-		w.WriteHeader(http.StatusOK)
-
-		err = json.NewEncoder(w).Encode(user)
+		err = json.NewEncoder(w).Encode(Response{Result: user})
 		if err != nil {
-			log.Printf("json-encode a response: %v", err)
+			log.Error().Err(err).Msg("failed to json-encode a response")
 		}
 	}
 }
@@ -139,15 +251,45 @@ func Delete(u Users) http.HandlerFunc {
 
 		id, err := strconv.Atoi(chi.URLParam(r, "id"))
 		if err != nil {
-			log.Printf("getting user id: %v", err)
-			http.Error(w, "failed to get user id", http.StatusBadRequest)
+			log.Error().Err(err).Msg("failed to get user id")
+
+			w.WriteHeader(http.StatusBadRequest)
+
+			serr := json.NewEncoder(w).Encode(Response{Error: &Error{
+				Code:    http.StatusBadRequest,
+				Message: "failed to get user id",
+				Details: err.Error(),
+			}})
+			if serr != nil {
+				log.Error().Err(err).Msg("failed to json-encode a response")
+			}
 			return
 		}
 
 		err = u.Delete(id)
 		if err != nil {
-			log.Printf("user deleting: %v", err)
-			http.Error(w, "failed to delete user", http.StatusInternalServerError)
+			log.
+				Error().
+				Err(err).
+				RawJSON("stack", errors.RawJsonStack(err)).
+				Msg("failed to edit user")
+
+			w.WriteHeader(http.StatusInternalServerError)
+
+			serr := json.NewEncoder(w).Encode(Response{Error: &Error{
+				Code:    http.StatusInternalServerError,
+				Message: "failed to edit user",
+				Details: errors.Stack(err),
+			}})
+			if serr != nil {
+				log.Error().Err(err).Msg("failed to json-encode a response")
+			}
+			return
+		}
+
+		err = json.NewEncoder(w).Encode(Response{Result: true})
+		if err != nil {
+			log.Error().Err(err).Msg("failed to json-encode a response")
 		}
 	}
 }

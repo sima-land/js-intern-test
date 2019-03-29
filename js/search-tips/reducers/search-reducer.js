@@ -1,11 +1,14 @@
-const search = (state = {}, action) => {
+import * as actions from '../actions/search-actions';
+
+const search = (state = [], action) => {
   switch (action.type) {
-    case 'search':
-      return {};
+    case actions.SEARCH:
+      return [
+        ...action.foundWords
+      ];
     default:
       return state;
   }
-
 };
 
 export default search;

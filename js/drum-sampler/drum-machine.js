@@ -3,7 +3,8 @@
 		constructor(audioNodes, keyNodes) {
 			this.keys = {};
 			this.namespace = {
-				playing:  'playing'
+				playing:  'playing',
+				error:  'error'
 			}
 
 			keyNodes.forEach(keyNode => {
@@ -50,6 +51,11 @@
 			const key = this.keys[keyCode].keyNode;
 			const audio = this.keys[keyCode].audioNode;
 
+			if(!audio || audio.readyState === 0) {
+				key.classList.add(this.namespace.error);
+				return;
+			}
+
 			key.classList.add(this.namespace.playing);
 			audio.play();
 
@@ -63,6 +69,11 @@
 			const audio = this.keys[keyCode].audioNode;
 
 			key.classList.remove(this.namespace.playing);
+
+			if(!audio) {
+				return;
+			}
+
 			audio.pause();
 			audio.currentTime = 0.0;
 		}

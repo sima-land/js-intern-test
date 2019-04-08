@@ -37,6 +37,11 @@ body,html {
   box-shadow: 0 0 10px #ffc600;
 }
 
+.error {
+  opacity: .5;
+  filter: grayscale(100%);
+}
+
 kbd {
   display: block;
   font-size: 40px;

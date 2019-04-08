@@ -52,26 +52,26 @@ class DrumMachine {
 		}
 	}
 
-	handlePressKey(eventKeyCode) {
+	handlePressKey(keyCode) {
 		this.resetAllKeys();
 
-		const currentKey = this.keys[eventKeyCode];
-		const key = currentKey.keyNode;
-		const audio = currentKey.audioNode;
+		const key = this.keys[keyCode].keyNode;
+		const audio = this.keys[keyCode].audioNode;
 
 		key.classList.add(this.namespace.playing);
 		audio.play();
 
 		setTimeout(() => {
-			this.handleEndPlaying(eventKeyCode);
+			this.handleEndPlaying(keyCode);
 		}, audio.duration * 1000);
 	}
 
 	handleEndPlaying(keyCode) {
-		const key = this.keys[keyCode];
-		key.keyNode.classList.remove(this.namespace.playing);
+		const key = this.keys[keyCode].keyNode;
+		const audio = this.keys[keyCode].audioNode;
 
-		key.audioNode.pause();
-		key.audioNode.currentTime = 0.0;
+		key.classList.remove(this.namespace.playing);
+		audio.pause();
+		audio.currentTime = 0.0;
 	}
 }

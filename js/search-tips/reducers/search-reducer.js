@@ -6,9 +6,8 @@ const search = (state = {}, action) => {
       const { value } = action
       const tips = !value.length?[]:state.contents
         .sort()
-        .filter(val => val.includes(value))
+        .filter((val) => val.toLowerCase().includes(value.toLowerCase() ))
         .slice(0, 5)
-        console.log(Object.assign({},state, {value:value, tips:tips} ))
       return Object.assign({},state, {value:value, tips:tips} )
     }
     default:{

@@ -1,0 +1,16 @@
+.PR{
+	font-size: 16px;
+	position: absolute;
+    left: 90%;
+    height: auto;
+    background: burlywood;
+    border: 2px solid black;
+    text-align: center;
+    margin: 35% 0px 0px 0px;
+}
+
+.count{
+    padding-left: 0px;
+    padding-right: 0px;
+    text-align: center;
+}

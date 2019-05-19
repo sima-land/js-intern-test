@@ -28,7 +28,7 @@ class Random
 */
 class ActiveUsers
 {
-    const TIMESESSION = 60; // время статуса актвиного пользователя с последней его активности
+    const TIMESESSION = 3; // время статуса актвиного пользователя с последней его активности
 /*
 * В методе setCookie устанавливается куки
 */
@@ -48,7 +48,7 @@ class ActiveUsers
         $file = $dir . $cookie;
 
         file_put_contents($file, '');
-        foreach (array_diff(scandir($dir), array('..', '.', '.gitkeep')) as $cookie) {
+        foreach (array_diff(scandir($dir), array('..', '.')) as $cookie) {
             if (time() - filemtime($dir . $cookie) < self::TIMESESSION) {
                 $active++;
             }

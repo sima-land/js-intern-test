@@ -1,59 +1,59 @@
 <?php
 
-ini_set("session.save_path", 'C:\openfull\OSPanel\domains\sima\temp');
-ini_set('session.cookie_lifetime', 60*60); // срок годности куки 1 час
-
 class Setting
 {
     public function __construct()
     {
-        $this->session = new Session();
+        $this->activeUsers = new ActiveUsers();
     }
 
     public function start()
     {
-        $this->session->sessionStart();
-        return $this->session->sessionCheckActive();
+        $this->activeUsers->setCookie();
+        return $this->activeUsers->checkActive();
     }
 }
-
 /*
-* Класс Session отвечает за сессии
+* Класс Random отвечает за генерацию строк
 */
-class Session
+class Random
 {
-    const TIMESESSION = 60; // Сессия держится 60 секунд
-/*
-* В методе sessionStart стартуется сессия
-*/
-    public function sessionStart()
+    public function generateCookie()
     {
-        session_start();
-        if (isset($_SESSION['active']) && (date(time()) - $_SESSION['active'] >= self::TIMESESSION)) {
-            session_unset();
-            session_destroy();
-        } else {
-            $_SESSION['active'] = date(time());
+        return md5(time() . mt_rand(1, 1000000));
+    }
+}
+/*
+* Класс ActiveUsers отвечает за подсчет активных пользователей
+*/
+class ActiveUsers
+{
+    const TIMESESSION = 60; // время статуса актвиного пользователя с последней его активности
+/*
+* В методе setCookie устанавливается куки
+*/
+    public function setCookie()
+    {
+        if (!isset($_COOKIE['active'])) {
+            setcookie('active', Random::generateCookie());
         }
     }
 /*
-* В методе sessionActive проверяются активные сессии
+* В методе checkActive проверяются активные пользователи
 */
-    public function sessionCheckActive()
+    public function checkActive()
     {
-        if ($directory_handle = opendir( session_save_path())) {
-             $count = 0;
-             while (false !== ($file = readdir($directory_handle))) {
-                 if($file != '.' && $file != '..') {
-                     if(date(time()) - filemtime(session_save_path() .'/'. $file) < self::TIMESESSION) {
-                         $count++;
-                     } else {
-                         unlink((session_save_path() .'/'. $file));
-                     }
-                 }
-             }
-             closedir($directory_handle);
-             return $count;
+        $dir = 'temp' . DIRECTORY_SEPARATOR;
+        $cookie = $_COOKIE['active'];
+        $file = $dir . $cookie;
+
+        file_put_contents($file, '');
+        foreach (array_diff(scandir($dir), array('..', '.', '.gitkeep')) as $cookie) {
+            if (time() - filemtime($dir . $cookie) < self::TIMESESSION) {
+                $active++;
+            }
         }
+
+        return $active;
     }
 }

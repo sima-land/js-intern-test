@@ -1,0 +1,5 @@
+platform :ios, '11.0'
+use_frameworks!
+target 'sima-land' do
+	pod 'SwiftyJSON', '~> 4.0'
+end

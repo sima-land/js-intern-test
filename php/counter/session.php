@@ -18,7 +18,7 @@ class Setting
 */
 class Random
 {
-    public function generateCookie()
+    public static function generateCookie()
     {
         return md5(time() . mt_rand(1, 1000000));
     }
@@ -28,7 +28,8 @@ class Random
 */
 class ActiveUsers
 {
-    const TIMESESSION = 3; // время статуса актвиного пользователя с последней его активности
+    const TIMESESSION = 60; // время статуса актвиного пользователя с последней его активности
+    const DIR = 'temp' . DIRECTORY_SEPARATOR;
 /*
 * В методе setCookie устанавливается куки
 */
@@ -37,23 +38,23 @@ class ActiveUsers
         if (!isset($_COOKIE['active'])) {
             setcookie('active', Random::generateCookie());
         }
+        $cookies = $_COOKIE['active'];
+        if ($cookies) {
+            $file = self::DIR . $cookies;
+            file_put_contents($file, '');
+        }
     }
 /*
 * В методе checkActive проверяются активные пользователи
 */
     public function checkActive()
     {
-        $dir = 'temp' . DIRECTORY_SEPARATOR;
-        $cookie = $_COOKIE['active'];
-        $file = $dir . $cookie;
-
-        file_put_contents($file, '');
-        foreach (array_diff(scandir($dir), array('..', '.')) as $cookie) {
-            if (time() - filemtime($dir . $cookie) < self::TIMESESSION) {
+        $active = 0;
+        foreach (array_diff(scandir(self::DIR), array('..', '.')) as $cookie) {
+            if (time() - filemtime(self::DIR . $cookie) < self::TIMESESSION) {
                 $active++;
             }
         }
-
         return $active;
     }
 }

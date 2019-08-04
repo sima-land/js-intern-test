@@ -1,7 +1,16 @@
-const search = (state = {}, action) => {
+const search = (state={word:'', data:[]}, action) => {
+  let newState;
   switch (action.type) {
     case 'search':
-      return {};
+      newState = JSON.parse(JSON.stringify(state));
+      newState['word'] = action.payload;
+      return newState;
+
+    case 'words':
+      newState = JSON.parse(JSON.stringify(state));
+      newState['data'] = action.payload;
+      return newState;
+
     default:
       return state;
   }
@@ -9,3 +18,4 @@ const search = (state = {}, action) => {
 };
 
 export default search;
+

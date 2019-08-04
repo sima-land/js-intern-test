@@ -6,6 +6,8 @@ module.exports = {
     bundle: './index.js'
   },
 
+  mode: 'development',
+
   output: {
     filename: '[name].js',
     path: resolve(__dirname, 'build/')

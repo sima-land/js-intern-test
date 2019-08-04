@@ -8,6 +8,7 @@ import SearchContainer from './containers/search-container';
 
 import './styles/index.css'
 
+
 render(
   <Provider store={store}>
     <SearchContainer />

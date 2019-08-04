@@ -1,14 +1,6 @@
-import { createStore } from 'redux';
-import reducer from '../reducers';
-import data from '../data/words';
+import { createStore } from "redux";
+import reducer from "../reducers";
 
-let preloadedState = {
-  words: data
-};
-
-
-const store = createStore(reducer, preloadedState);
-
-export { preloadedState };
+const store = createStore(reducer);
 
 export default store;

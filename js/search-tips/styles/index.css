@@ -1,0 +1,39 @@
+body {
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+.search {
+	max-width: 300px;
+}
+
+.search-input {
+	width: 100%;
+	border-radius: 0;
+	border: 1px solid #ccc;
+	margin-bottom: -1px;
+	padding: 10px;
+	font-weight: 600;
+}
+
+.search-tips-block-list {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	border: 1px solid #ccc;
+}
+
+.search-tips-button {
+	width: 100%;
+	padding: 10px;
+	font-size: 16px;
+	font-family: inherit;
+	border: none;
+	border-radius: 0;
+	background: none;
+	transition: 0.2s background-color;
+	text-align: left;
+}
+
+.search-tips-button:hover {
+	background-color: rgba(0, 0, 0, 0.3);
+}

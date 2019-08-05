@@ -1,14 +1,8 @@
-const search = (state={word:'', data:[]}, action) => {
-  let newState;
+const search = (state={}, action) => {
   switch (action.type) {
     case 'SET_WORD':
-      newState = JSON.parse(JSON.stringify(state));
+      let newState = JSON.parse(JSON.stringify(state));
       newState['word'] = action.payload;
-      return newState;
-
-    case 'GET_DATA':
-      newState = JSON.parse(JSON.stringify(state));
-      newState['data'] = action.payload;
       return newState;
 
     default:

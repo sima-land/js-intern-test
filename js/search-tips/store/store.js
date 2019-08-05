@@ -2,12 +2,15 @@ import { createStore } from 'redux';
 import reducer from '../reducers';
 import data from '../data/words';
 
-const store = createStore(reducer);
+let preloadedState = {
+  search : {
+    word: '',
+    data: data
+  }
+};
 
-store.dispatch({
-  type:'GET_DATA',
-  payload: data
-});
+const store = createStore(reducer, preloadedState);
 
+export { preloadedState };
 
 export default store;

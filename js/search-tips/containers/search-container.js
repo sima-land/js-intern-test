@@ -10,8 +10,7 @@ const mapStateToProps = state => {
 
   if(word.length>0) {
     console.time();
-    let counter = 0;
-    for(let i=0; i<data.length; i++) {
+    for(let i=0, counter=0; i<data.length; i++) {
       if(data[i].toLowerCase().indexOf(word.toLowerCase())>-1) {
         filteredArr.push(data[i]);
         if(++counter>5) break;

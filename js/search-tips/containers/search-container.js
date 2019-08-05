@@ -5,7 +5,7 @@ import {setWord} from '../actions/search-actions';
 import SearchForm from '../components/search-form';
 
 const mapStateToProps = state => {
-  const {word,data} = state.search;
+  const {word, data} = state.search;
   const filteredArr = [];
 
   if(word.length>0) {

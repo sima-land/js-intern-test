@@ -5,6 +5,7 @@ import data from '../data/words';
 let preloadedState = {
   search : {
     word: '',
+    filtered: [],
     data: data
   }
 };

@@ -1,11 +1,11 @@
-import { createStore, applyMiddleware  } from 'redux';
+import { createStore } from 'redux';
 import reducer from '../reducers';
 import data from '../data/words';
 
 const store = createStore(reducer);
 
 store.dispatch({
-  type:'words',
+  type:'GET_DATA',
   payload: data
 });
 

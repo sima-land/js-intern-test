@@ -1,6 +1,6 @@
 export function setWord(word) {
   return {
-    type: 'search',
+    type: 'SET_WORD',
     payload: word
   }
 }

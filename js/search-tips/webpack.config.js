@@ -1,10 +1,12 @@
-const { resolve } = require('path');
+const { resolve, join } = require('path');
 const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   entry: {
     bundle: './index.js'
   },
+  mode: 'development',
 
   output: {
     filename: '[name].js',
@@ -26,8 +28,15 @@ module.exports = {
       }
     ]
   },
+  devServer: {
+    contentBase: join(__dirname, ''),
+    compress: true,
+    port: 8080
+  },
   resolve: {
     extensions: ['.js', '.jsx']
   },
-  plugins: []
+  plugins: [new HtmlWebpackPlugin({
+    template: resolve(__dirname, 'index.html')
+  })]  
 };

@@ -4,44 +4,45 @@
   <meta charset="UTF-8">
   <title>JS Drum Kit</title>
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
 </head>
-<body>
+<body translate="no">
 
 
   <div class="keys">
-    <div data-key="65" class="key">
+    <div data-key="65" class="key pad-1">
       <kbd>A</kbd>
       <span class="sound">clap</span>
     </div>
-    <div data-key="83" class="key">
+    <div data-key="83" class="key pad-2">
       <kbd>S</kbd>
       <span class="sound">hihat</span>
     </div>
-    <div data-key="68" class="key">
+    <div data-key="68" class="key pad-3">
       <kbd>D</kbd>
       <span class="sound">kick</span>
     </div>
-    <div data-key="70" class="key">
+    <div data-key="70" class="key pad-4">
       <kbd>F</kbd>
       <span class="sound">openhat</span>
     </div>
-    <div data-key="71" class="key">
+    <div data-key="71" class="key pad-5">
       <kbd>G</kbd>
       <span class="sound">boom</span>
     </div>
-    <div data-key="72" class="key">
+    <div data-key="72" class="key pad-6">
       <kbd>H</kbd>
       <span class="sound">ride</span>
     </div>
-    <div data-key="74" class="key">
+    <div data-key="74" class="key pad-7">
       <kbd>J</kbd>
       <span class="sound">snare</span>
     </div>
-    <div data-key="75" class="key">
+    <div data-key="75" class="key pad-8">
       <kbd>K</kbd>
       <span class="sound">tom</span>
     </div>
-    <div data-key="76" class="key">
+    <div data-key="76" class="key pad-9">
       <kbd>L</kbd>
       <span class="sound">tink</span>
     </div>
@@ -58,6 +59,124 @@
   <audio data-key="76" src="sounds/tink.wav"></audio>
 
 <script src="drum-machine.js"></script>
+<script src="https://static.codepen.io/assets/common/stopExecutionOnTimeout-de7e2ef6bfefd24b79a3f68b414b87b8db5b08439cac3f1012092b2290c719cd.js"></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js'></script>
+
+
+<script id="rendered-js">
+      $(document).ready(function () {
+
+  var padOne = new Audio('https://raw.githubusercontent.com/sima-land/intern-test/master/js/drum-sampler/sounds/clap.wav');
+  $('.pad-1').mousedown(function () {
+    padOne.load();
+    padOne.play();
+  });
+
+  var padTwo = new Audio('https://raw.githubusercontent.com/sima-land/intern-test/master/js/drum-sampler/sounds/hihat.wav');
+  $('.pad-2').mousedown(function () {
+    padTwo.load();
+    padTwo.play();
+  });
+
+  var padThree = new Audio('https://raw.githubusercontent.com/sima-land/intern-test/master/js/drum-sampler/sounds/kick.wav');
+  $('.pad-3').mousedown(function () {
+    padThree.load();
+    padThree.play();
+  });
+          
+  var padFour = new Audio('https://raw.githubusercontent.com/sima-land/intern-test/master/js/drum-sampler/sounds/openhat.wav');
+  $('.pad-4').mousedown(function () {
+    padFour.load();
+    padFour.play();
+  });
+          
+  
+  var padFive = new Audio('https://raw.githubusercontent.com/sima-land/intern-test/master/js/drum-sampler/sounds/boom.wav');
+  $('.pad-5').mousedown(function () {
+    padFive.load();
+    padFive.play();
+  });
+          
+  var padSix = new Audio('https://raw.githubusercontent.com/sima-land/intern-test/master/js/drum-sampler/sounds/ride.wav');
+  $('.pad-6').mousedown(function () {
+    padSix.load();
+    padSix.play();
+  });
+          
+  var padSeven = new Audio('https://raw.githubusercontent.com/sima-land/intern-test/master/js/drum-sampler/sounds/snare.wav');
+  $('.pad-7').mousedown(function () {
+    padSeven.load();
+    padSeven.play();
+  });
+          
+  var padEight = new Audio('https://raw.githubusercontent.com/sima-land/intern-test/master/js/drum-sampler/sounds/tom.wav');
+  $('.pad-8').mousedown(function () {
+    padEight.load();
+    padEight.play();
+  });
+          
+  var padNine = new Audio('https://raw.githubusercontent.com/sima-land/intern-test/master/js/drum-sampler/sounds/tink.wav');
+  $('.pad-9').mousedown(function () {
+    padNine.load();
+    padNine.play();
+  });
+          
+          
+          $(window).keydown(function (e) {
+    var code = e.keyCode;
+    var kc = String.fromCharCode(e.keyCode);
+    $("div[data-code='" + code + "']").addClass("active");
+    console.log(code);
+
+    switch (kc) {
+      case "A":
+        padOne.load();
+        padOne.play();
+        break;
+             case "S":
+        padTwo.load();
+        padTwo.play();
+        break;
+            case "D":
+        padThree.load(); 
+        padThree.play();
+        break;
+             case "F":
+        padFour.load();
+        padFour.play();
+        break;
+            case "G":
+        padFive.load();
+        padFive.play();
+        break;
+             case "H":
+        padSix.load();
+        padSix.play();
+        break;
+            case "J":
+        padSeven.load();
+        padSeven.play();
+        break;
+             case "K":
+        padEight.load();
+        padEight.play();
+        break;
+            case "L":
+        padNine.load();
+        padNine.play();
+        break;
+            
+            default:}
+
+  });
+
+  $(window).keyup(function (e) {
+    var code = e.keyCode;
+    $("div[data-code='" + code + "']").removeClass("active");
+  });
+
+});
+</script>
 
 
 </body>

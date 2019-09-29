@@ -1,0 +1,3 @@
+[submodule "mobile/Android/solution"]
+	path = mobile/Android/solution
+	url = https://github.com/arshak-aivazian/SimalandTest.git

@@ -6,9 +6,16 @@ module.exports = {
     bundle: './index.js'
   },
 
+  devServer: {
+    disableHostCheck: true,
+  },
+
+  devtool: 'inline-source-map',
+
   output: {
     filename: '[name].js',
-    path: resolve(__dirname, 'build/')
+    path: resolve(__dirname, 'build/'),
+    publicPath: 'build/',
   },
 
   module: {

@@ -4,12 +4,12 @@ import * as actions from '../actions/search-actions';
 
 import SearchForm from '../components/search-form';
 
-const mapStateToProps = state => ({
-  
+const mapStateToProps = ({ search }) => ({
+  search
 });
 
 const mapDispatchToProps = dispatch => ({
-
+  updateSuggestions: value => dispatch(actions.suggestionsRequested(value)),
 });
 
 const SearchContainer = connect(mapStateToProps, mapDispatchToProps)(SearchForm);

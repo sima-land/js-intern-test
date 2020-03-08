@@ -29,10 +29,10 @@ function HashURL($String)
   $Check1 = (($Check1 >> 4) & 0x3FFC00 ) | ($Check1 & 0x3FF);
   $Check1 = (($Check1 >> 4) & 0x3C000 ) | ($Check1 & 0x3FFF);
 
-  $T1 = (((($Check1 & 0x3C0) << 4) | ($Check1 & 0x3C)) <<2 ) | ($Check2 & 0xF0F );
-  $T2 = (((($Check1 & 0xFFFFC000) << 4) | ($Check1 & 0x3C00)) << 0xA) | ($Check2 & 0xF0F0000 );
+  $Tmb1 = (((($Check1 & 0x3C0) << 4) | ($Check1 & 0x3C)) <<2 ) | ($Check2 & 0xF0F );
+  $Tmb2 = (((($Check1 & 0xFFFFC000) << 4) | ($Check1 & 0x3C00)) << 0xA) | ($Check2 & 0xF0F0000 );
 
-  return ($T1 | $T2);
+  return ($Tmb1 | $Tmb2);
   }
   
 function CheckHash($Hashnum)
@@ -45,13 +45,13 @@ function CheckHash($Hashnum)
 
   for ($i = $length - 1;  $i >= 0;  $i --) 
     {
-    $Re = $HashStr{$i};
+    $Rev = $HashStr{$i};
     if (1 === ($Flag % 2)) 
       {
-      $Re += $Re;
-      $Re = (int)($Re / 10) + ($Re % 10);
+      $Rev += $Rev;
+      $Rev = (int)($Rev / 10) + ($Rev % 10);
       }
-    $CheckByte += $Re;
+    $CheckByte += $Rev;
     $Flag ++;
     }
 
@@ -73,8 +73,8 @@ function CheckHash($Hashnum)
  
 function getpagerank($url) 
   {
-  $fp = fsockopen("toolbarqueries.google.com", 80, $errno, $errstr, 30);
-  if (!$fp) 
+  $fop = fsockopen("toolbarqueries.google.com", 80, $errno, $errstr, 30);
+  if (!$fop) 
     {
     } 
   else 
@@ -84,10 +84,10 @@ function getpagerank($url)
     $out .= "Host: toolbarqueries.google.com\r\n";
     $out .= "User-Agent: Mozilla/4.0 (compatible; GoogleToolbar 2.0.114-big; Windows XP 5.1)\r\n";
     $out .= "Connection: Close\r\n\r\n";
-    fwrite($fp, $out);
-    while (!feof($fp)) 
+    fwrite($fop, $out);
+    while (!feof($fop)) 
       {
-      $data = fgets($fp, 128);
+      $data = fgets($fop, 128);
       $pos = strpos($data, "Rank_");
       if($pos === false)
         {
@@ -98,7 +98,7 @@ function getpagerank($url)
         $pagerank = substr($data, $pos + 9);
         }
       }
-    fclose($fp);
+    fclose($fop);
     }
 
   $pagerank = (strlen($pagerank) > 0) ? $pagerank : -1;

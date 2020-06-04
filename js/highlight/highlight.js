@@ -18,9 +18,9 @@ function highlight(
         let parentNode = node.parentNode;
         let nextNode = node.nextElementSibling;
         let isFirst = true;
-        for (;;) {
+        for (; ;) {
             let request = plainTextSubstring;
-            if (typeof nextSearch === "undefined") {
+            if (typeof nextSearch !== "undefined") {
                 request = nextSearch;
                 nextSearch = void 0;
             }
@@ -124,7 +124,7 @@ function highlight(
     function tryToFind(elementDOM) {
         let nodeText = elementDOM.textContent;
         let startIndex = 0;
-        for (;;) {
+        for (; ;) {
             let foundIndex = nodeText
                 .toLowerCase()
                 .indexOf(plainTextSubstring.toLowerCase(), startIndex);
@@ -140,11 +140,9 @@ function highlight(
         }
     }
 
-    let tempDOMElement = document.createElement("div");
-    tempDOMElement.innerHTML = sourceHtml;
-
-    tryToFind(tempDOMElement);
-    return tempDOMElement.innerHTML;
+    let tempDOMElement = new DOMParser().parseFromString(sourceHtml, 'text/html');
+    tryToFind(tempDOMElement.body);
+    return tempDOMElement.body.innerHTML;
 }
 
 module.exports = highlight;

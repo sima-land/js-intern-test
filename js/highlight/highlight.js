@@ -18,11 +18,11 @@ function highlight(
         let parentNode = node.parentNode;
         let nextNode = node.nextElementSibling;
         let isFirst = true;
-        while (true) {
+        for (;;) {
             let request = plainTextSubstring;
-            if (nextSearch) {
+            if (typeof nextSearch === "undefined") {
                 request = nextSearch;
-                nextSearch = undefined;
+                nextSearch = void 0;
             }
 
             let foundIndex = nodeVal.toLowerCase().indexOf(request.toLowerCase());
@@ -56,9 +56,9 @@ function highlight(
                         let textNode = document.createTextNode(
                             nodeVal.substring(0, indexes[0] - count)
                         );
-                        parentNode.insertBefore(textNode, node)
+                        parentNode.insertBefore(textNode, node);
                     }
-                    let newNode = document.createElement('div');
+                    let newNode = document.createElement("div");
                     let addLength = nodeVal.length - (indexes[0] - count) + 1;
                     nextSearch = request.substring(
                         nodeVal.substring(indexes[0] - count).length
@@ -72,7 +72,7 @@ function highlight(
                     indexes.unshift(count);
                     parentNode.removeChild(node);
                 }
-                break
+                break;
             }
             isFirst = false;
 
@@ -124,7 +124,7 @@ function highlight(
     function tryToFind(elementDOM) {
         let nodeText = elementDOM.textContent;
         let startIndex = 0;
-        while (true) {
+        for (;;) {
             let foundIndex = nodeText
                 .toLowerCase()
                 .indexOf(plainTextSubstring.toLowerCase(), startIndex);
@@ -132,7 +132,7 @@ function highlight(
                 indexes.push(foundIndex);
                 startIndex = foundIndex + plainTextSubstring.length;
             } else {
-                break
+                break;
             }
         }
         if (indexes.length) {

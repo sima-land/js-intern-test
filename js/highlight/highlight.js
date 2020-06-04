@@ -63,7 +63,7 @@ function highlight(
                         nodeVal.substring(indexes[0] - count).length
                     );
 
-                    let newNode = new DOMParser().parseFromString(highlighter(nodeVal.substring(indexes[0] - count)), 'text/html');
+                    let newNode = new DOMParser().parseFromString(highlighter(nodeVal.substring(indexes[0] - count)), "text/html");
                     for (let child of Array.prototype.slice.call(newNode.body.childNodes)) {
                         parentNode.insertBefore(child, node);
                     }
@@ -84,7 +84,7 @@ function highlight(
 
             let newNode = new DOMParser().parseFromString(highlighter(
                 nodeVal.substring(foundIndex, foundIndex + request.length)
-            ), 'text/html');
+            ), "text/html");
 
             for (let child of Array.prototype.slice.call(newNode.body.childNodes)) {
                 parentNode.insertBefore(child, node);
@@ -141,7 +141,7 @@ function highlight(
         }
     }
 
-    let tempDOMElement = new DOMParser().parseFromString(sourceHtml, 'text/html');
+    let tempDOMElement = new DOMParser().parseFromString(sourceHtml, "text/html");
     tryToFind(tempDOMElement.body);
     return tempDOMElement.body.innerHTML;
 }

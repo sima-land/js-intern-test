@@ -58,15 +58,16 @@ function highlight(
                         );
                         parentNode.insertBefore(textNode, node);
                     }
-                    let newNode = document.createElement("div");
                     let addLength = nodeVal.length - (indexes[0] - count) + 1;
                     nextSearch = request.substring(
                         nodeVal.substring(indexes[0] - count).length
                     );
-                    newNode.innerHTML = highlighter(nodeVal.substring(indexes[0] - count));
-                    for (let child of Array.prototype.slice.call(newNode.childNodes)) {
+
+                    let newNode = new DOMParser().parseFromString(highlighter(nodeVal.substring(indexes[0] - count)), 'text/html');
+                    for (let child of Array.prototype.slice.call(newNode.body.childNodes)) {
                         parentNode.insertBefore(child, node);
                     }
+
                     count += indexes[0] - count + request.length - addLength;
                     indexes.shift();
                     indexes.unshift(count);
@@ -81,11 +82,11 @@ function highlight(
                 parentNode.insertBefore(textNode, node);
             }
 
-            let newNode = document.createElement("div");
-            newNode.innerHTML = highlighter(
+            let newNode = new DOMParser().parseFromString(highlighter(
                 nodeVal.substring(foundIndex, foundIndex + request.length)
-            );
-            for (let child of Array.prototype.slice.call(newNode.childNodes)) {
+            ), 'text/html');
+
+            for (let child of Array.prototype.slice.call(newNode.body.childNodes)) {
                 parentNode.insertBefore(child, node);
             }
             count += foundIndex + request.length;

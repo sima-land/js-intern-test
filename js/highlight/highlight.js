@@ -78,7 +78,7 @@ function highlight(
 
             if (foundIndex > 0) {
                 let textNode = document.createTextNode(nodeVal.substring(0, foundIndex));
-                parentNode.insertBefore(textNode, node)
+                parentNode.insertBefore(textNode, node);
             }
 
             let newNode = document.createElement("div");

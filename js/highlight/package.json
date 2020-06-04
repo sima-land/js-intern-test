@@ -1,0 +1,9 @@
+{
+  "name": "highlight",
+  "version": "1.0.0",
+  "description": "Требуется реализовать функцию, выделяющую все вхождения поисковой подстроки в строке.",
+  "main": "highlight.js",
+  "scripts": {
+    "test": "jest"
+  }
+}

@@ -1,7 +1,6 @@
 {
   "presets": ["@babel/env", "@babel/react"],
   "plugins": [
-    "transform-es2015-destructuring",
     "transform-object-rest-spread",
     "@babel/plugin-proposal-optional-chaining"
   ]

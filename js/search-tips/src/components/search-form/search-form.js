@@ -1,6 +1,6 @@
 import React from 'react';
-
-import SearchTips from '../../containers/search-tips-container';
+import PropTypes from 'prop-types';
+import SearchTipsContainer from '../../containers/search-tips-container';
 
 import classes from './style.module.css';
 
@@ -21,9 +21,13 @@ const SearchForm = ({ onSearch }) => {
         autoComplete={'off'}
         id='search'
       />
-      <SearchTips />
+      <SearchTipsContainer />
     </section>
   );
+};
+
+SearchForm.propTypes = {
+  onSearch: PropTypes.func.isRequired,
 };
 
 export default SearchForm;

@@ -3,12 +3,11 @@ import { render } from 'react-dom';
 import { Provider } from 'react-redux';
 import store from './redux/store/store';
 
-import SearchContainer from './containers/search-form-container';
+import SearchFormContainer from './containers/search-form-container';
 
 render(
   <Provider store={store}>
-    <SearchContainer />
-    <SearchContainer />
+    <SearchFormContainer />
   </Provider>,
   document.getElementById('search-page')
 );

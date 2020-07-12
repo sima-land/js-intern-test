@@ -8,6 +8,7 @@ import SearchContainer from './containers/search-form-container';
 render(
   <Provider store={store}>
     <SearchContainer />
+    <SearchContainer />
   </Provider>,
   document.getElementById('search-page')
 );

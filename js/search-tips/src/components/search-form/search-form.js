@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import useInput from '../../hooks/use-input';
+import React from 'react';
 
 import SearchTips from '../../containers/search-tips-container';
 
@@ -11,12 +10,15 @@ const SearchForm = ({ onSearch }) => {
   };
 
   return (
-    <section>
-      <label htmlFor='search'>Поисковые подсказки</label>
+    <section className={classes.searchForm}>
+      <label htmlFor='search' className={classes.searchLabel}>
+        Поисковые подсказки
+      </label>
       <input
-        className={classes.searchForm}
+        className={classes.searchInput}
         onChange={handleChange}
         type='search'
+        autoComplete={'off'}
         id='search'
       />
       <SearchTips />

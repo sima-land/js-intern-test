@@ -1,0 +1,9 @@
+.searchTip {
+  padding: 10px;
+  outline: none;
+}
+
+.searchTip:hover {
+  cursor: pointer;
+  background-color: rgba(0, 0, 0, 0.04);
+}

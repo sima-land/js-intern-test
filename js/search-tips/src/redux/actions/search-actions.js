@@ -1,6 +1,6 @@
 import { SEARCH } from '../constants';
 
-export const search = (inputValue) => ({
+export const onSearch = (inputValue) => ({
   type: SEARCH,
   payload: { inputValue },
 });

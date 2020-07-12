@@ -1,15 +1,13 @@
 import React, { useState } from 'react';
 import useInput from '../../hooks/use-input';
 
-import SearchTips from '../search-tips/search-tips';
+import SearchTips from '../../containers/search-tips-container';
 
 import classes from './style.module.css';
 
-const SearchForm = ({ search, words, currentSearch }) => {
-  console.log('curr search state', currentSearch);
+const SearchForm = ({ onSearch }) => {
   const handleChange = (e) => {
-    // searchText.onChange(e);
-    search(e.target.value);
+    onSearch(e.target.value);
   };
 
   return (

@@ -1,5 +1,13 @@
 import React from 'react';
+import SearchTip from './search-tip/search-tip';
 
-const SearchTips = (props) => <div className='search-tips'></div>;
+import classes from './style.module.css';
+
+const SearchTips = ({ searchResult }) => {
+  console.log(searchResult);
+  const { entities, isOpen } = searchResult;
+  const tipsList = entities?.map((tip) => <SearchTip tip={tip} />);
+  return <div className={classes.searchTips}>{'tipsList'}</div>;
+};
 
 export default SearchTips;

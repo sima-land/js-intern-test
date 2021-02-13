@@ -9,6 +9,8 @@ const mapStateToProps = state => ({
 
     inputString: state.search.inputString,
     searchTipsArray: state.search.searchTipsArray,
+    additionalLineForOutput:state.search.additionalLineForOutput,
+
 });
 
 const SearchContainer = connect(mapStateToProps, {updateInputStringAC})(SearchForm)

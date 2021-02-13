@@ -5,8 +5,8 @@ import SearchTips from '../components/search-tips'
 const SearchForm = ({inputString, searchTipsArray, updateInputStringAC}) => (
     <section>
         <h1>Поисковые подсказки</h1>
-        <input className="search-input" type="search" value={inputString} onChange={(event) => {
-            updateInputStringAC(event.target.value)
+        <input className="search-input" type="search" autoFocus value={inputString} onChange={(event) => {
+            updateInputStringAC(event.target.value, event.target.selectionStart)
         }}/>
         <SearchTips searchTipsArray={searchTipsArray}/>
     </section>

@@ -12,23 +12,28 @@ const search = (state = searchState, action) => {
     switch (action.type) {
         case UPDATE_INPUT_STRING:
             let newArray = []
-            if (action.newText !== '') {
-                newArray = state.words.filter((val) => {
+            let StartOfSearchWord = action.newText.lastIndexOf(' ', action.currentCursorPosition)
+            //let EndOfSearchWord = action.newText.indexOf(' ', action.currentCursorPosition)
+            const searchWord = action.newText.substring(StartOfSearchWord + 1 , action.currentCursorPosition)
 
-                    let regexp = new RegExp(`^${action.newText}`, 'g')
+            if (searchWord !== '') {
+
+                let amountCurentFoundWords = 0
+                for (const wordFromArray of state.words) {
+
+                    let regexp = new RegExp(`^${searchWord}`, 'i') // флаг 'i' - поиск без учета регистра
 
                     // проверяем вхождение в каждом слове
-                    return val.split(' ').filter((valWord => {
-                        return regexp.test(valWord)
+                    if (wordFromArray.split(' ').filter((valWord => {
+                            return regexp.test(valWord)
+                        }
+                    )).length !== 0) {
+                        newArray.push(wordFromArray)
+                        amountCurentFoundWords++
                     }
-                    )).length !==0
+                    if (amountCurentFoundWords === 5) break
 
-
-                    // return regexp.test(val)
-//                    let regexp = new RegExp(`^${action.newText.toUpperCase()}`)
-                    // return regexp.test(val.toUpperCase())
-//                    return val.toUpperCase().indexOf(action.newText.toUpperCase()) !== -1
-                })
+                }
             }
             return Object.assign({}, state, {inputString: action.newText}, {searchTipsArray: newArray})
         default:
@@ -40,5 +45,9 @@ const search = (state = searchState, action) => {
 export default search
 
 //ActionCreators
-export const updateInputStringAC = (value) => ({type: UPDATE_INPUT_STRING, newText: value})
+export const updateInputStringAC = (value, currentCursorPosition) => ({
+    type: UPDATE_INPUT_STRING,
+    newText: value,
+    currentCursorPosition
+})
 

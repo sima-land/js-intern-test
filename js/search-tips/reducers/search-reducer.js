@@ -1,7 +1,13 @@
+// const initialState = {
+//   searchText: '',
+// };
+
 const search = (state = {}, action) => {
   switch (action.type) {
     case 'search':
-      return {};
+      return Object.assign({}, state, { 
+        searchText: action.payload.searchText
+      })
     default:
       return state;
   }
